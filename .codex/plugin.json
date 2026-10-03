@@ -1,8 +1,19 @@
 {
   "name": "mindmap-skills",
+  "displayName": "Mindmap Skills",
   "version": "1.0.0",
-  "description": "Interactive Markmap mindmaps for AI agents with official syntax and zero-dependency autoloader rendering.",
-  "author": "Fioenix",
+  "description": "Universal Markmap mindmaps for AI agents. Enforces cognitive structuring (single root, 4–7 branches, depth 3–4, brevity <= 8 words) and outputs clean .mindmap.md plus zero-dependency standalone HTML artifacts.",
+  "author": {
+    "name": "Fioenix",
+    "email": "tangduyphuong@gmail.com",
+    "url": "https://github.com/fioenix"
+  },
+  "icon": "./assets/icon.png",
+  "logo": "./assets/icon.svg",
+  "homepage": "https://github.com/fioenix/mindmap-skills#readme",
+  "repository": "https://github.com/fioenix/mindmap-skills",
+  "license": "MIT",
+  "category": "Productivity",
   "skills": [
     "skills/markmap"
   ]

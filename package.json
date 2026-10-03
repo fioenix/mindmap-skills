@@ -1,8 +1,13 @@
 {
   "name": "mindmap-skills",
   "version": "1.0.0",
-  "description": "Interactive Markmap mindmaps for AI agents (Claude Code, Codex, Antigravity) with official syntax and zero-dependency autoloader rendering.",
+  "description": "Universal Markmap mindmaps for AI agents (Claude Code, Codex, Antigravity) with official syntax and zero-dependency autoloader rendering.",
   "type": "module",
+  "icon": "./assets/icon.png",
+  "scripts": {
+    "test": "bash tests/validate.sh",
+    "validate": "bash tests/validate.sh"
+  },
   "keywords": [
     "markmap",
     "mindmap",
@@ -25,6 +30,8 @@
   "files": [
     "skills",
     "scripts",
+    "assets",
+    "logo.svg",
     "plugin.json",
     "README.md",
     "LICENSE"

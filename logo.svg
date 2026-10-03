@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0F172A" />
+      <stop offset="50%" stop-color="#1E1B4B" />
+      <stop offset="100%" stop-color="#0F172A" />
+    </linearGradient>
+
+    <!-- Branch Gradients -->
+    <linearGradient id="branch-emerald" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#6366F1" />
+      <stop offset="100%" stop-color="#10B981" />
+    </linearGradient>
+    <linearGradient id="branch-cyan" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#6366F1" />
+      <stop offset="100%" stop-color="#06B6D4" />
+    </linearGradient>
+    <linearGradient id="branch-purple" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#6366F1" />
+      <stop offset="100%" stop-color="#C084FC" />
+    </linearGradient>
+    <linearGradient id="branch-amber" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#6366F1" />
+      <stop offset="100%" stop-color="#F59E0B" />
+    </linearGradient>
+
+    <!-- Node Glow Filter -->
+    <filter id="glow-root" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="12" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    <filter id="glow-leaf" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Squircle Base with Border -->
+  <rect x="16" y="16" width="480" height="480" rx="108" fill="url(#bg-grad)" stroke="#312E81" stroke-width="4" />
+
+  <!-- Mindmap Connecting Branches -->
+  <g fill="none" stroke-linecap="round">
+    <!-- Branch to Top Right (Cyan) -->
+    <path d="M 210 256 C 260 256, 280 150, 360 150" stroke="url(#branch-cyan)" stroke-width="8" opacity="0.9" />
+    <path d="M 360 150 C 390 150, 400 115, 430 115" stroke="#06B6D4" stroke-width="5" opacity="0.8" />
+    <path d="M 360 150 C 390 150, 400 175, 430 175" stroke="#06B6D4" stroke-width="5" opacity="0.8" />
+
+    <!-- Branch to Mid-Top Right (Emerald) -->
+    <path d="M 210 256 C 270 256, 290 220, 370 220" stroke="url(#branch-emerald)" stroke-width="8" opacity="0.9" />
+    <path d="M 370 220 C 400 220, 410 240, 435 240" stroke="#10B981" stroke-width="5" opacity="0.8" />
+
+    <!-- Branch to Mid-Bottom Right (Purple) -->
+    <path d="M 210 256 C 270 256, 290 295, 370 295" stroke="url(#branch-purple)" stroke-width="8" opacity="0.9" />
+    <path d="M 370 295 C 400 295, 410 275, 435 275" stroke="#C084FC" stroke-width="5" opacity="0.8" />
+
+    <!-- Branch to Bottom Right (Amber) -->
+    <path d="M 210 256 C 260 256, 280 365, 360 365" stroke="url(#branch-amber)" stroke-width="8" opacity="0.9" />
+    <path d="M 360 365 C 390 365, 400 340, 430 340" stroke="#F59E0B" stroke-width="5" opacity="0.8" />
+    <path d="M 360 365 C 390 365, 400 395, 430 395" stroke="#F59E0B" stroke-width="5" opacity="0.8" />
+
+    <!-- Left Balance Branch (Subtle Violet) -->
+    <path d="M 170 256 C 130 256, 120 200, 85 200" stroke="#818CF8" stroke-width="6" opacity="0.7" />
+    <path d="M 170 256 C 130 256, 120 310, 85 310" stroke="#818CF8" stroke-width="6" opacity="0.7" />
+  </g>
+
+  <!-- Left Secondary Leaves -->
+  <circle cx="85" cy="200" r="9" fill="#818CF8" filter="url(#glow-leaf)" />
+  <circle cx="85" cy="310" r="9" fill="#818CF8" filter="url(#glow-leaf)" />
+
+  <!-- Right Leaves (Top to Bottom) -->
+  <circle cx="430" cy="115" r="9" fill="#38BDF8" filter="url(#glow-leaf)" />
+  <circle cx="430" cy="175" r="9" fill="#06B6D4" filter="url(#glow-leaf)" />
+  <circle cx="435" cy="240" r="9" fill="#10B981" filter="url(#glow-leaf)" />
+  <circle cx="435" cy="275" r="9" fill="#C084FC" filter="url(#glow-leaf)" />
+  <circle cx="430" cy="340" r="9" fill="#F59E0B" filter="url(#glow-leaf)" />
+  <circle cx="430" cy="395" r="9" fill="#FBBF24" filter="url(#glow-leaf)" />
+
+  <!-- Mid Nodes -->
+  <circle cx="360" cy="150" r="13" fill="#0284C7" stroke="#38BDF8" stroke-width="3" />
+  <circle cx="370" cy="220" r="13" fill="#059669" stroke="#34D399" stroke-width="3" />
+  <circle cx="370" cy="295" r="13" fill="#9333EA" stroke="#E879F9" stroke-width="3" />
+  <circle cx="360" cy="365" r="13" fill="#D97706" stroke="#FCD34D" stroke-width="3" />
+
+  <!-- Central Root Node (AI Brain Core) -->
+  <g filter="url(#glow-root)">
+    <circle cx="190" cy="256" r="32" fill="#4F46E5" stroke="#A5B4FC" stroke-width="4" />
+    <circle cx="190" cy="256" r="14" fill="#FFFFFF" opacity="0.95" />
+  </g>
+</svg>

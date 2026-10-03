@@ -22,5 +22,6 @@ if ! command -v npx &>/dev/null; then
   exit 3
 fi
 
-npx --yes markmap-cli "$INPUT" -o "$OUTPUT" --no-open
+# Use '--' to terminate flag parsing and prevent CLI argument injection
+npx --yes markmap-cli -- "$INPUT" -o "$OUTPUT" --no-open
 echo "Rendered: $OUTPUT"

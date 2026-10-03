@@ -101,6 +101,7 @@ When an interactive visual is requested, generate a self-contained HTML file usi
 
 * Features built-in: Interactive zoom, pan, node collapse/expand, fit to view, and export to SVG/PNG directly in the client's browser.
 * Template source is located at `assets/template.html` relative to this skill.
+* **Security Guardrail**: When generating HTML, replace any literal `</script` in the markdown with `<\/script` to prevent HTML parser breakout (XSS/DOM injection).
 
 ---
 

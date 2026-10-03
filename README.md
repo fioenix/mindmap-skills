@@ -74,21 +74,35 @@ ln -s ~/Projects/mindmap-skills/skills/markmap ~/.agents/skills/markmap
 ```text
 mindmap-skills/
 ├── .claude-plugin/
-│   └── plugin.json             # Claude Code plugin manifest
+│   └── plugin.json             # Claude Code plugin manifest (with icon, tags, category)
 ├── .codex/
 │   └── plugin.json             # Codex plugin manifest
 ├── plugin.json                 # Antigravity plugin manifest
 ├── package.json                # npm / skills.sh package descriptor
+├── assets/
+│   ├── icon.svg                # Vector SVG icon
+│   └── icon.png                # 512x512 PNG marketplace icon
+├── logo.svg                    # Root vector logo
 ├── LICENSE                     # MIT License
 ├── README.md                   # Documentation & installation guide
 ├── skills/
 │   └── markmap/
 │       ├── SKILL.md            # Canonical skill instructions & prompt constraints
 │       └── assets/
-│           └── template.html   # Standalone HTML artifact template (Autoloader CDN)
-└── scripts/
-    └── render.sh               # Optional CLI helper (markmap-cli wrapper)
+│           └── template.html   # Standalone HTML artifact template (CSP hardened)
+├── scripts/
+│   └── render.sh               # Hardened CLI helper (markmap-cli wrapper)
+└── tests/
+    └── validate.sh             # Automated validation & test suite
 ```
+
+---
+
+## 🔒 Security Posture & Guardrails
+
+* **Zero-Privilege Execution**: By default, no subshell, process spawning, or CLI is executed. The agent emits pure Markdown and client-side HTML.
+* **XSS & Parser Breakout Protection**: The template enforces Content Security Policy (CSP) headers and documents strict escaping of `</script` as `<\/script` to prevent premature script termination and DOM injection.
+* **CLI Option Injection Guard**: `scripts/render.sh` terminates argument parsing with `--` (`markmap-cli -- "$INPUT"`) to prevent malicious filenames from triggering CLI flags.
 
 ---
 

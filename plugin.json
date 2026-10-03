@@ -1,7 +1,10 @@
 {
   "name": "mindmap-skills",
+  "displayName": "Mindmap Skills",
   "version": "1.0.0",
-  "description": "Interactive Markmap mindmaps for AI agents with official syntax and zero-dependency autoloader rendering.",
+  "description": "Universal Markmap mindmaps for AI agents. Enforces cognitive structuring (single root, 4–7 branches, depth 3–4, brevity <= 8 words) and outputs clean .mindmap.md plus zero-dependency standalone HTML artifacts.",
   "author": "Fioenix",
-  "license": "MIT"
+  "icon": "./assets/icon.svg",
+  "license": "MIT",
+  "category": "design"
 }
