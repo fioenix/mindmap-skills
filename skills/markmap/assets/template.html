@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{TITLE}}</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+    #mindmap-container {
+      width: 100vw;
+      height: 100vh;
+      position: relative;
+    }
+    .markmap {
+      width: 100%;
+      height: 100%;
+    }
+    .markmap > svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+    .mm-toolbar {
+      position: absolute;
+      bottom: 24px;
+      right: 24px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+  </style>
+  <script>
+    window.markmap = {
+      autoLoader: {
+        toolbar: true,
+      },
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/markmap-autoloader"></script>
+</head>
+<body>
+  <div id="mindmap-container" class="markmap">
+    <script type="text/template">
+{{MARKDOWN_CONTENT}}
+    </script>
+  </div>
+</body>
+</html>

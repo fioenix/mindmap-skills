@@ -1,0 +1,7 @@
+{
+  "name": "mindmap-skills",
+  "version": "1.0.0",
+  "description": "Interactive Markmap mindmaps for AI agents with official syntax and zero-dependency autoloader rendering.",
+  "author": "Fioenix",
+  "license": "MIT"
+}

@@ -1,0 +1,21 @@
+{
+  "name": "mindmap-skills",
+  "version": "1.0.0",
+  "description": "Interactive Markmap mindmaps for AI agents with official syntax and zero-dependency autoloader rendering.",
+  "author": {
+    "name": "Fioenix",
+    "email": "tangduyphuong@gmail.com"
+  },
+  "homepage": "https://github.com/fioenix/mindmap-skills",
+  "repository": "https://github.com/fioenix/mindmap-skills",
+  "license": "MIT",
+  "keywords": [
+    "markmap",
+    "mindmap",
+    "claude-code",
+    "codex",
+    "antigravity",
+    "agent-skills"
+  ],
+  "skills": "./skills/markmap"
+}
