@@ -6,7 +6,7 @@ ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT_DIR"
 
 echo "=== [1/5] Validating JSON Manifests ==="
-for file in package.json plugin.json .claude-plugin/plugin.json .codex/plugin.json; do
+for file in package.json plugin.json .claude-plugin/plugin.json .claude-plugin/marketplace.json .codex/plugin.json; do
   if [[ ! -f "$file" ]]; then
     echo "❌ Missing manifest: $file" >&2
     exit 1
@@ -14,6 +14,12 @@ for file in package.json plugin.json .claude-plugin/plugin.json .codex/plugin.js
   jq . "$file" >/dev/null
   echo "  ✓ Valid JSON: $file"
 done
+
+if command -v claude &>/dev/null; then
+  claude plugin validate --strict . >/dev/null
+  claude plugin validate --strict .claude-plugin/plugin.json >/dev/null
+  echo "  ✓ Official Claude Code CLI strict validation passed"
+fi
 
 echo ""
 echo "=== [2/5] Validating Manifest Metadata & Icons ==="

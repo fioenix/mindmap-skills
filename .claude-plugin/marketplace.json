@@ -1,0 +1,18 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "fioenix-plugins",
+  "description": "Fioenix AI Agent Plugins and Skills",
+  "owner": {
+    "name": "Fioenix",
+    "email": "tangduyphuong@gmail.com"
+  },
+  "plugins": [
+    {
+      "name": "mindmap-skills",
+      "description": "Universal Markmap mindmaps for AI agents with official syntax and zero-dependency autoloader rendering.",
+      "version": "1.0.0",
+      "category": "design",
+      "source": "./"
+    }
+  ]
+}

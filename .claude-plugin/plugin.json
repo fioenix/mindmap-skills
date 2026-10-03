@@ -10,11 +10,9 @@
     "url": "https://github.com/fioenix"
   },
   "icon": "./assets/icon.png",
-  "logo": "./assets/icon.svg",
   "homepage": "https://github.com/fioenix/mindmap-skills#readme",
   "repository": "https://github.com/fioenix/mindmap-skills",
   "license": "MIT",
-  "category": "design",
   "keywords": [
     "markmap",
     "mindmap",
