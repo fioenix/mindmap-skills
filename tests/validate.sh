@@ -74,11 +74,11 @@ if ! grep -q "Content-Security-Policy" "$TEMPLATE"; then
 fi
 echo "  ✓ Content-Security-Policy present in template"
 
-if ! grep -q "markmap-autoloader" "$TEMPLATE"; then
-  echo "❌ Missing markmap-autoloader script in $TEMPLATE" >&2
+if ! grep -q "markmap-view" "$TEMPLATE" || ! grep -q "markmap-lib" "$TEMPLATE"; then
+  echo "❌ Missing robust markmap CDN scripts in $TEMPLATE" >&2
   exit 1
 fi
-echo "  ✓ Markmap autoloader CDN present in template"
+echo "  ✓ Robust markmap CDN scripts present in template"
 
 SKILL_SPEC="skills/markmap/SKILL.md"
 if ! grep -q "Security Guardrail" "$SKILL_SPEC"; then

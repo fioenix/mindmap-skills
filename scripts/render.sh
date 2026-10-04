@@ -22,6 +22,7 @@ if ! command -v npx &>/dev/null; then
   exit 3
 fi
 
-# Use '--' to terminate flag parsing and prevent CLI argument injection
-npx --yes markmap-cli -- "$INPUT" -o "$OUTPUT" --no-open
+# Use --offline for self-contained HTML (immune to Safari file:// restrictions and offline usage)
+# Flags must come BEFORE '--' so they are not treated as positional files
+npx --yes markmap-cli --offline -o "$OUTPUT" --no-open -- "$INPUT"
 echo "Rendered: $OUTPUT"

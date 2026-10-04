@@ -62,7 +62,19 @@ Save directly to the target project directory or Obsidian vault.
 * Zero lock-in, version-controllable text.
 
 ### Deliverable B: Standalone Interactive HTML (`<name>.mindmap.html` or Chat Artifact)
-When an interactive visual is requested, generate a self-contained HTML file using the **Markmap Autoloader** pattern (zero Node.js/CLI/Playwright dependencies):
+
+There are two primary ways to produce interactive HTML deliverables:
+
+#### Method 1: Local Standalone Offline HTML (Recommended for Local Files)
+Run the bundled render script to compile directly using `markmap-cli --offline`:
+```bash
+./scripts/render.sh <path/to/mindmap.md> [path/to/output.html]
+```
+* **Offline Ready**: All JS and CSS are inlined (zero CDN requests, works 100% offline).
+* **Cross-Browser & Local File Safe**: Bypasses browser `file:///` CORS restrictions (e.g. Safari Local File Restrictions).
+
+#### Method 2: Zero-Dependency HTML Artifact / Template (Direct File Generation)
+When generating HTML directly without executing CLI commands, use the robust static CDN pattern (`assets/template.html`):
 
 ```html
 <!DOCTYPE html>
@@ -70,37 +82,61 @@ When an interactive visual is requested, generate a self-contained HTML file usi
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; img-src 'self' data: https:; font-src 'self' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net;">
   <title>{{TITLE}}</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html, body {
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
+      width: 100%; height: 100%; overflow: hidden;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: #ffffff;
     }
-    #mindmap-container { width: 100vw; height: 100vh; position: relative; }
-    .markmap { width: 100%; height: 100%; }
-    .markmap > svg { width: 100%; height: 100%; display: block; }
+    #mindmap { width: 100vw; height: 100vh; display: block; }
+    @media (prefers-color-scheme: dark) {
+      html, body { background: #18181b; color: #f4f4f5; }
+      #mindmap text { fill: #f4f4f5; }
+    }
     .mm-toolbar { position: absolute; bottom: 24px; right: 24px; }
   </style>
-  <script>
-    window.markmap = { autoLoader: { toolbar: true } };
-  </script>
-  <script src="https://cdn.jsdelivr.net/npm/markmap-autoloader"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/markmap-toolbar@0.18.12/dist/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/markmap-view@0.18.12/dist/browser/index.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/markmap-lib@0.18.12/dist/browser/index.iife.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/markmap-toolbar@0.18.12/dist/index.js"></script>
 </head>
 <body>
-  <div id="mindmap-container" class="markmap">
-    <script type="text/template">
+  <svg id="mindmap"></svg>
+  <script type="text/template" id="markdown-source">
 {{MARKDOWN_CONTENT}}
-    </script>
-  </div>
+  </script>
+  <script>
+    window.addEventListener("DOMContentLoaded", () => {
+      try {
+        const mdEl = document.getElementById("markdown-source");
+        const md = mdEl.textContent.trim();
+        const { Transformer, Markmap, Toolbar } = window.markmap;
+        const transformer = new Transformer();
+        const { root, frontmatter } = transformer.transform(md);
+        const options = markmap.deriveOptions(frontmatter?.markmap);
+        const mm = Markmap.create("#mindmap", options, root);
+        if (Toolbar) {
+          const toolbar = new Toolbar();
+          toolbar.attach(mm);
+          const el = toolbar.render();
+          el.setAttribute("style", "position:absolute;bottom:20px;right:20px");
+          document.body.append(el);
+        }
+        mm.fit();
+      } catch (err) {
+        console.error("Markmap render failed:", err);
+      }
+    });
+  </script>
 </body>
 </html>
 ```
 
-* Features built-in: Interactive zoom, pan, node collapse/expand, fit to view, and export to SVG/PNG directly in the client's browser.
-* Template source is located at `assets/template.html` relative to this skill.
+* **No Dynamic Fetching**: Loads static tags directly, preventing Safari `file:///` CORS crashes.
 * **Security Guardrail**: When generating HTML, replace any literal `</script` in the markdown with `<\/script` to prevent HTML parser breakout (XSS/DOM injection).
 
 ---
