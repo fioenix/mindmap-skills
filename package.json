@@ -1,7 +1,7 @@
 {
   "name": "mindmap-skills",
   "version": "1.0.0",
-  "description": "Universal Markmap mindmaps for AI agents (Claude Code, Codex, Antigravity) with official syntax and zero-dependency autoloader rendering.",
+  "description": "Universal Markmap mindmaps for AI agents (Claude Code, Codex, Antigravity) with official syntax and robust standalone HTML rendering.",
   "type": "module",
   "icon": "./assets/icon.png",
   "scripts": {

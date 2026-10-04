@@ -1,6 +1,6 @@
 ---
 name: markmap
-description: Generate interactive Markmap mindmaps from notes, architecture docs, codebases, or topics. Enforces strict markmap syntax (title frontmatter, colorFreezeLevel: 2, 4-7 branches, brevity <= 8 words, rich syntax support) and outputs clean .mindmap.md plus zero-dependency standalone HTML artifacts via markmap-autoloader.
+description: Generate interactive Markmap mindmaps from notes, architecture docs, codebases, or topics. Enforces strict markmap syntax (title frontmatter, colorFreezeLevel: 2, 4-7 branches, brevity <= 8 words, rich syntax support) and outputs clean .mindmap.md plus robust standalone HTML artifacts.
 ---
 
 # Markmap Mindmap Skill

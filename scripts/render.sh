@@ -18,7 +18,7 @@ fi
 OUTPUT="${2:-${INPUT%.*}.html}"
 
 if ! command -v npx &>/dev/null; then
-  echo "Error: 'npx' is required for CLI rendering. Please install Node.js/npx, or use the zero-dependency autoloader template." >&2
+  echo "Error: 'npx' is required for CLI rendering. Please install Node.js/npx, or use the zero-dependency HTML template." >&2
   exit 3
 fi
 

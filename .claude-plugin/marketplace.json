@@ -9,7 +9,7 @@
   "plugins": [
     {
       "name": "mindmap-skills",
-      "description": "Universal Markmap mindmaps for AI agents with official syntax and zero-dependency autoloader rendering.",
+      "description": "Universal Markmap mindmaps for AI agents with official syntax and robust standalone HTML rendering.",
       "version": "1.0.0",
       "category": "design",
       "source": "./"
