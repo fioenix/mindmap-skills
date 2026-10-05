@@ -11,8 +11,8 @@ Tracking document and release verification dossier for `mindmap-skills` conformi
 project: mindmap-skills
 platform: claude
 target: self-install (and directory submission ready)
-version: 0.1.0
-source_sha: 87b6e8f
+version: 0.1.1
+source_sha: a546a24
 artifact_sha256: not-applicable (git-sourced)
 tool_versions:
   claude_cli: 2.1.281+
@@ -35,7 +35,7 @@ publisher: Fioenix (https://github.com/fioenix)
 status: ready-to-submit
 live_verification:
   url: https://github.com/fioenix/mindmap-skills
-  version: 0.1.0
+  version: 0.1.1
   date: 2026-10-05
 ```
 
@@ -44,8 +44,8 @@ live_verification:
 project: mindmap-skills
 platform: openai
 target: self-install (and marketplace ready)
-version: 0.1.0
-source_sha: 87b6e8f
+version: 0.1.1
+source_sha: a546a24
 artifact_sha256: not-applicable (git-sourced)
 tool_versions:
   jq: 1.7+
@@ -70,7 +70,7 @@ publisher: Fioenix (https://github.com/fioenix)
 status: ready-to-submit
 live_verification:
   url: https://github.com/fioenix/mindmap-skills
-  version: 0.1.0
+  version: 0.1.1
   date: 2026-10-05
 ```
 
@@ -85,7 +85,7 @@ live_verification:
 | **Zero Daemon / Token Tax** | PASSED | 0 background daemons, no headless Chromium dependency, 0 idle token overhead |
 | **Zero Dependency Core** | PASSED | Core workflow runs purely on Markdown + static HTML template, zero npm/CLI requirements |
 | **Graceful Fallback** | PASSED | Transparent fallback to static HTML artifact if `markmap-cli` is absent |
-| **Manifests Parity** | PASSED | Version 0.1.0 unified across all 7 manifest descriptors |
+| **Manifests Parity** | PASSED | Version 0.1.1 unified across all 7 manifest descriptors |
 | **Listing URLs** | PASSED | `documentationUrl`, `supportUrl`, `privacyPolicyUrl`, `termsOfServiceUrl` declared in full |
 | **OpenAI String Limits** | PASSED | `displayName` (14 ≤ 30), `shortDescription` (28 ≤ 30), `defaultPrompt` (≤ 128 chars) |
 | **Brand Colors & Contrast** | PASSED | `#9750C4` (4.54:1 on white) & `#7FE2CE` (11.53:1 on dark) adhering to FINOLABS tokens |
