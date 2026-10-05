@@ -11,7 +11,7 @@ Tài liệu kiểm chứng và theo dõi trạng thái phát hành của `mindma
 project: mindmap-skills
 platform: claude
 target: self-install (and directory submission ready)
-version: 1.0.0
+version: 0.1.0
 source_sha: 95b9efe
 artifact_sha256: not-applicable (git-sourced)
 tool_versions:
@@ -35,7 +35,7 @@ publisher: Fioenix (https://github.com/fioenix)
 status: ready-to-submit
 live_verification:
   url: https://github.com/fioenix/mindmap-skills
-  version: 1.0.0
+  version: 0.1.0
   date: 2026-10-05
 ```
 
@@ -44,7 +44,7 @@ live_verification:
 project: mindmap-skills
 platform: openai
 target: self-install (and marketplace ready)
-version: 1.0.0
+version: 0.1.0
 source_sha: 95b9efe
 artifact_sha256: not-applicable (git-sourced)
 tool_versions:
@@ -70,7 +70,7 @@ publisher: Fioenix (https://github.com/fioenix)
 status: ready-to-submit
 live_verification:
   url: https://github.com/fioenix/mindmap-skills
-  version: 1.0.0
+  version: 0.1.0
   date: 2026-10-05
 ```
 
@@ -85,7 +85,7 @@ live_verification:
 | **Zero Daemon / Token Tax** | ĐẠT | 0 background daemons, không phụ thuộc headless Chromium |
 | **Zero Dependency Core** | ĐẠT | Core chạy thuần markdown + template HTML, không yêu cầu npm/CLI |
 | **Graceful Fallback** | ĐẠT | Khi không có `markmap-cli`, fallback tự động sang static template |
-| **Manifests Parity** | ĐẠT | Phiên bản 1.0.0 đồng nhất trên tất cả 7 file manifests |
+| **Manifests Parity** | ĐẠT | Phiên bản 0.1.0 đồng nhất trên tất cả 7 file manifests |
 | **Listing URLs** | ĐẠT | `documentationUrl`, `supportUrl`, `privacyPolicyUrl`, `termsOfServiceUrl` khai báo đầy đủ |
 | **OpenAI String Limits** | ĐẠT | `displayName` (14 ≤ 30), `shortDescription` (28 ≤ 30), `defaultPrompt` (≤ 128) |
 | **Brand Colors & Contrast** | ĐẠT | `#9750C4` (4.54:1 với trắng) & `#7FE2CE` (11.53:1 với dark) theo FINOLABS Design System |
