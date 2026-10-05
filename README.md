@@ -16,7 +16,7 @@ Most AI mindmap solutions suffer from two fatal extremes:
 * **Zero Daemon & Zero Token Tax**: 0 background processes, 0 permanent token overhead when idle.
 * **Strict Cognitive Structuring**: Enforces single-root, 4–7 branches (Miller's Law), depth 3–4, and concise nodes (≤ 8 words) with keyword-first punchlines.
 * **100% Official Markmap Syntax**: Supports `title` frontmatter, `colorFreezeLevel: 2`, `<!-- markmap: fold -->`, checkboxes, code blocks, and KaTeX math.
-* **Zero-Dependency Rendering**: Emits portable `.mindmap.md` (native in Obsidian / VS Code) and instant standalone `.mindmap.html` via client-side Markmap Autoloader.
+* **Zero-Dependency Rendering**: Emits portable `.mindmap.md` (native in Obsidian / VS Code) and instant standalone `.mindmap.html` via robust client-side template or offline CLI rendering.
 
 ---
 
@@ -102,7 +102,7 @@ mindmap-skills/
 
 * **Zero-Privilege Execution**: By default, no subshell, process spawning, or CLI is executed. The agent emits pure Markdown and client-side HTML.
 * **XSS & Parser Breakout Protection**: The template enforces Content Security Policy (CSP) headers and documents strict escaping of `</script` as `<\/script` to prevent premature script termination and DOM injection.
-* **CLI Option Injection Guard**: `scripts/render.sh` terminates argument parsing with `--` (`markmap-cli -- "$INPUT"`) to prevent malicious filenames from triggering CLI flags.
+* **CLI Option Injection Guard**: `scripts/render.sh` passes flags before terminating argument parsing with `--` (`markmap-cli --offline -o "$OUTPUT" --no-open -- "$INPUT"`) to prevent malicious filenames from triggering CLI flags.
 
 ---
 

@@ -43,7 +43,7 @@ def generate_conic_background(size=512):
     return img
 
 def main():
-    repo_dir = "/Users/fioenix/Projects/mindmap-skills"
+    repo_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     bg_img = generate_conic_background(512)
     bg_path = "/tmp/fn_conic_bg.png"
     bg_img.save(bg_path, format="PNG")
