@@ -1,22 +1,40 @@
-# 🧠 mindmap-skills
+<p align="center">
+  <img src="assets/icon.svg" width="96" height="96" alt="mindmap-skills icon" />
+</p>
 
-**Universal, lightweight Markmap mindmap plugin for AI Agents (Claude Code, OpenAI Codex, Google Antigravity).**
+<h1 align="center">mindmap-skills</h1>
 
-Designed and structured for 100% compliance with the marketplace & distribution standards of **Claude Code**, **Codex**, and **Antigravity**.
+<p align="center">
+  <b>Universal, lightweight Markmap mindmap plugin for AI Agents (Claude Code, OpenAI Codex, Google Antigravity).</b>
+</p>
+
+<p align="center">
+  <a href="https://github.com/fioenix/mindmap-skills/actions/workflows/ci.yml"><img src="https://github.com/fioenix/mindmap-skills/actions/workflows/ci.yml/badge.svg" alt="CI Status" /></a>
+  <a href="https://github.com/fioenix/mindmap-skills"><img src="https://img.shields.io/badge/Marketplace-Ready-7FE2CE?logo=anthropic&logoColor=0B0B17" alt="Marketplace Ready" /></a>
+  <a href="https://github.com/fioenix/mindmap-skills"><img src="https://img.shields.io/badge/Runtime-Zero--Daemon-9750C4" alt="Zero Daemon" /></a>
+  <a href="https://github.com/fioenix/mindmap-skills"><img src="https://img.shields.io/badge/Agents-Claude%20%7C%20Codex%20%7C%20Antigravity-18181b" alt="Agent Support" /></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License: MIT" /></a>
+  <a href="CONTRIBUTING.md"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" alt="PRs Welcome" /></a>
+</p>
 
 ---
 
-## ⚡ Why mindmap-skills?
+## ⚡ The Solution
 
 Most AI mindmap solutions suffer from two fatal pitfalls:
-1. **Bloated Daemon / Token Tax**: Running persistent background server processes, dragging in Playwright and a 300MB Chromium headless browser just to take a screenshot, while permanently burning 1,000+ tokens of schema definitions in every conversation turn.
+1. **Bloated Daemon & Token Tax**: Running persistent background server processes, dragging in Playwright and a 300MB Chromium headless browser just to take a screenshot, while permanently burning 1,000+ tokens of schema definitions in every conversation turn.
 2. **Cognitive Sprawl**: Dumping raw paragraph-length prose into node trees, producing unreadable walls of text that defeat the visual purpose of a mindmap.
 
-**`mindmap-skills` solves this cleanly:**
-* **Zero Daemon & Zero Token Tax**: 0 background processes, 0 permanent token overhead when idle.
-* **Strict Cognitive Structuring**: Enforces single-root, 4–7 branches (Miller's Law), depth 3–4, and concise nodes (≤ 8 words) with keyword-first punchlines.
-* **100% Official Markmap Syntax**: Supports `title` frontmatter, `colorFreezeLevel: 2`, `<!-- markmap: fold -->`, checkboxes, code blocks, and KaTeX math.
-* **Zero-Dependency Rendering**: Emits portable `.mindmap.md` (native in Obsidian / VS Code) and instant standalone `.mindmap.html` via robust client-side template or offline CLI rendering.
+### Architecture Comparison
+
+| Capability | Heavyweight MCP / Headless | Raw LLM Text | **mindmap-skills** |
+|---|---|---|---|
+| **Runtime Footprint** | 300MB+ Headless Chrome daemon | 0 MB | **0 MB (Zero daemon)** |
+| **Idle Token Tax** | 1,000+ tokens burned per turn | 0 tokens | **0 token overhead** |
+| **Cognitive Structuring** | None (unfiltered text dump) | Unstructured | **Miller's Law (4–7 branches, depth 3–4, ≤ 8 words)** |
+| **Output Artifacts** | Static raster image (PNG) | Raw text | **Portable `.mindmap.md` + Interactive `.html`** |
+| **Multi-Agent Parity** | Platform-specific | Inconsistent | **Claude Code · OpenAI Codex · Google Antigravity** |
+| **Security Posture** | Process execution / Subshells | Safe | **Zero-privilege core + CSP-hardened template** |
 
 ---
 
@@ -30,16 +48,16 @@ In your Claude Code terminal session:
 /plugin marketplace add fioenix/mindmap-skills
 /plugin install mindmap-skills@fioenix-plugins
 ```
-Then invoke the skill directly:
+Then invoke the skill directly in any conversation:
 ```text
 /mindmap-skills:markmap Tạo sơ đồ tư duy cho kiến trúc microservices này
 ```
 
 #### On Claude Desktop / Web UI:
-1. Open **Customize** → **Plugins** → **Add** → **Add marketplace** → **Add from a repository**.
+1. Navigate to **Customize** → **Plugins** → **Add** → **Add marketplace** → **Add from a repository**.
 2. Enter repository: `fioenix/mindmap-skills`.
-3. In Discover, locate **mindmap-skills** and click **Add**.
-4. Invoke in chat with `/markmap` or the `+` menu.
+3. In Discover, select **mindmap-skills** and click **Add**.
+4. Invoke in chat using `/markmap` or via the `+` menu.
 
 #### Local Development / Manual Link:
 ```bash
@@ -80,10 +98,53 @@ cp -r ~/Projects/mindmap-skills/skills/markmap .agents/skills/
 
 ---
 
+## 📋 Cognitive Structuring & Markmap Syntax
+
+Every generated mindmap adheres strictly to official Markmap standards:
+
+```markdown
+---
+title: System Architecture
+markmap:
+  colorFreezeLevel: 2
+---
+
+## Core Gateway
+- **Auth**: JWT verification with RSA
+- **Rate Limit**: Token bucket at edge
+- **Routing**: Dynamic endpoint dispatch
+
+## Storage Layer
+- **KV**: Session cache & token blacklist
+- **D1**: SQLite transactional metadata
+- **R2**: Blob and artifact storage
+
+## Observability <!-- markmap: fold -->
+- **Traces**: OpenTelemetry collectors
+- **Metrics**: Cloudflare Analytics Engine
+- **Audit**: Immutable append-only logs
+```
+
+### Cognitive Invariants:
+* `title`: Frontmatter root node. Main branches start directly at `##`.
+* `colorFreezeLevel: 2`: Freezes branch colors at depth 2 (each `##` gets a consistent distinct color for all descendants).
+* **4–7 Main Branches**: Strictly enforces Miller's Law for working memory retention.
+* **Concise Nodes (≤ 8 words)**: Punchline and keyword first. Strips narrative filler prose.
+* `<!-- markmap: fold -->`: Automatically collapses dense or secondary sub-trees on load.
+* `- [x]` / `- [ ]`: Interactive checklists.
+* `$formula$`: Native math rendering via KaTeX.
+
+---
+
 ## 🛠️ Repository Architecture
 
 ```text
 mindmap-skills/
+├── .github/
+│   ├── workflows/
+│   │   └── ci.yml              # Automated GitHub Actions CI workflow
+│   ├── ISSUE_TEMPLATE/         # Structured bug & feature request templates
+│   └── PULL_REQUEST_TEMPLATE.md# Pull request validation checklist
 ├── .claude-plugin/
 │   ├── marketplace.json        # Claude Code marketplace catalog definition
 │   └── plugin.json             # Claude Code plugin manifest (with URLs & icons)
@@ -117,44 +178,8 @@ mindmap-skills/
 │   ├── build_icon.py           # Portable vector icon renderer
 │   └── render.sh               # Hardened CLI helper (markmap-cli wrapper)
 └── tests/
-    └── validate.sh             # Automated validation & test suite
+    └── validate.sh             # Automated validation & test suite (8 gates)
 ```
-
----
-
-## 📋 Cognitive Structuring & Markmap Syntax
-
-Every generated mindmap adheres strictly to the official Markmap schema:
-
-```markdown
----
-title: System Architecture
-markmap:
-  colorFreezeLevel: 2
----
-
-## Core Gateway
-- **Auth**: JWT verification with RSA
-- **Rate Limit**: Token bucket at edge
-- **Routing**: Dynamic endpoint dispatch
-
-## Storage Layer
-- **KV**: Session cache & token blacklist
-- **D1**: SQLite transactional metadata
-- **R2**: Blob and artifact storage
-
-## Observability <!-- markmap: fold -->
-- **Traces**: OpenTelemetry collectors
-- **Metrics**: Cloudflare Analytics Engine
-- **Audit**: Immutable append-only logs
-```
-
-### Key Elements:
-* `title`: Frontmatter root node. Main branches start directly at `##`.
-* `colorFreezeLevel: 2`: Freezes branch colors at depth 2 (each `##` gets a consistent distinct color).
-* `<!-- markmap: fold -->`: Automatically collapses dense or secondary sub-trees on load.
-* `- [x]` / `- [ ]`: Interactive checklists.
-* `$formula$`: Native math rendering via KaTeX.
 
 ---
 

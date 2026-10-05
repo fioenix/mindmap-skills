@@ -1,0 +1,31 @@
+name: 💡 Feature Request / Improvement
+description: Suggest an idea, Markmap syntax enhancement, or new feature
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for helping improve `mindmap-skills`!
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem Statement / Context
+      description: Is your feature request related to a problem or a gap in current functionality?
+      placeholder: "I'm always frustrated when..."
+    validations:
+      required: true
+  - type: textarea
+    id: proposed_solution
+    attributes:
+      label: Proposed Solution or Behavior
+      description: Describe what you would like the skill or plugin to do.
+      placeholder: "Add support for..."
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives Considered
+      description: Any alternative solutions or workarounds you've evaluated?
+    validations:
+      required: false
