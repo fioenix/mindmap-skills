@@ -12,7 +12,7 @@ project: mindmap-skills
 platform: claude
 target: self-install (and directory submission ready)
 version: 1.0.0
-source_sha: 5ad3a7f (updated in next commit)
+source_sha: 95b9efe
 artifact_sha256: not-applicable (git-sourced)
 tool_versions:
   claude_cli: 2.1.281+
@@ -45,7 +45,7 @@ project: mindmap-skills
 platform: openai
 target: self-install (and marketplace ready)
 version: 1.0.0
-source_sha: 5ad3a7f (updated in next commit)
+source_sha: 95b9efe
 artifact_sha256: not-applicable (git-sourced)
 tool_versions:
   jq: 1.7+
