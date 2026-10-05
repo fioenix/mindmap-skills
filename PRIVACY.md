@@ -1,25 +1,25 @@
-# Chính sách bảo mật & Quyền riêng tư (Privacy Policy)
+# Privacy Policy
 
-`mindmap-skills` được thiết kế theo kiến trúc phi tập trung, ưu tiên bảo mật và tôn trọng tuyệt đối quyền riêng tư của người dùng:
+`mindmap-skills` is engineered with an offline-first, decentralized posture that respects user privacy and data sovereignty:
 
-## 1. Không thu thập & Không gửi dữ liệu ngoài
+## 1. Zero Backend & No External Egress
 
-- **Zero-Backend**: Skill và plugin không sở hữu bất kỳ máy chủ backend, API endpoint thu thập dữ liệu hay cơ chế telemetry/analytics nào.
-- **Local & In-Agent Execution**: Quá trình phân tích, trích xuất cấu trúc mindmap và tạo file `.mindmap.md` diễn ra hoàn toàn nội bộ trong ngữ cảnh của mô hình ngôn ngữ trên host (Claude, Codex, Antigravity).
-- **Zero-Dependency Rendering**: File HTML độc lập sử dụng mẫu template tĩnh nhúng sẵn hoặc tải CDN công khai mã nguồn mở (Markmap / D3 qua jsDelivr) hoặc render 100% offline bằng `scripts/render.sh` không kết nối mạng.
+- **Zero-Backend Architecture**: The skill and plugin operate with no backend servers, no analytics ingestion endpoints, and no telemetry services owned by maintainers.
+- **Local & In-Agent Execution**: Concept extraction, cognitive structuring, and Markdown generation (`.mindmap.md`) occur strictly within the user's active AI agent runtime context (Claude Code, OpenAI Codex, Google Antigravity).
+- **Zero-Dependency Rendering**: Standalone HTML mindmaps utilize pre-packaged static client templates, public open-source CDNs (Markmap / D3 via jsDelivr), or local offline compilation via `scripts/render.sh` without external network dependencies.
 
-## 2. Kiểm soát dữ liệu đầu vào
+## 2. Input Data Governance
 
-- Quy trình chỉ xử lý văn bản, tài liệu, ghi chú hoặc mã nguồn do người dùng chủ động cung cấp trong phiên làm việc.
-- **Khuyến nghị an toàn**: Người dùng không nên cung cấp dữ liệu thẻ tín dụng (PCI DSS), thông tin định danh chính phủ, mật khẩu, private key, session token hoặc dữ liệu cá nhân nhạy cảm vào prompt. Nếu phát hiện các thông tin nhạy cảm này, quy trình khuyến cáo agent dừng phân tích và yêu cầu phiên bản đã được ẩn danh (anonymized).
+- The skill processes only documents, notes, architecture briefs, or source code explicitly provided by the user in the prompt turn.
+- **Sensitive Data Handling**: Users should never submit payment card data (PCI DSS), protected health information (PHI), passwords, private keys, API secrets, or confidential credentials. If such data is encountered, the skill terminates processing immediately and requests an anonymized prompt.
 
-## 3. Dữ liệu trên nền tảng máy chủ AI Host
+## 3. Host Platform Data Policies
 
-- Mọi tương tác prompt và file tạo ra được quản lý theo chính sách quyền riêng tư và điều khoản sử dụng của nền tảng mà bạn đang chạy (Anthropic Claude, OpenAI Codex, Google Antigravity).
-- Repository và maintainer không có quyền truy cập, can thiệp hay kiểm soát dữ liệu trên tài khoản người dùng của các nền tảng trên.
+- Prompt execution, context retention, and file storage are governed by the respective terms of service and privacy policies of your chosen AI agent host (Anthropic Claude, OpenAI Codex, Google Antigravity).
+- The repository maintainers possess no access, insight, or control over host-level conversation logs or user workspaces.
 
-## 4. Đóng góp & Báo cáo lỗi
+## 4. Issue Reporting & Community Contributions
 
-Khi đóng góp ca lỗi (bug report) hoặc mở issue trên GitHub, người dùng chỉ gửi các văn bản, mã nguồn mẫu hoặc sơ đồ đã được ẩn danh hoàn toàn, không chứa thông tin bí mật kinh doanh hay dữ liệu thực tế của doanh nghiệp.
+When reporting bugs or opening pull requests on GitHub, contributors must ensure that all test cases, prompt snippets, and diagrams are thoroughly anonymized and stripped of proprietary identifiers.
 
-Liên hệ về các vấn đề quyền riêng tư thông qua [GitHub Issues](https://github.com/fioenix/mindmap-skills/issues).
+For privacy-related inquiries, open an issue on [GitHub Issues](https://github.com/fioenix/mindmap-skills/issues).

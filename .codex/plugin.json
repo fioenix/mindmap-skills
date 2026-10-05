@@ -30,9 +30,9 @@
     "privacyPolicyURL": "https://github.com/fioenix/mindmap-skills/blob/main/PRIVACY.md",
     "termsOfServiceURL": "https://github.com/fioenix/mindmap-skills/blob/main/TERMS.md",
     "defaultPrompt": [
-      "Tạo mindmap Markmap cho kiến trúc hệ thống này với tối đa 7 nhánh chính.",
-      "Chuyển ghi chú này thành sơ đồ tư duy Markmap tương tác với độ sâu 3 tầng.",
-      "Generate an interactive Markmap mindmap highlighting key concepts."
+      "Create a Markmap mindmap for this system architecture with up to 7 main branches.",
+      "Transform these research notes into an interactive Markmap mindmap with depth 3-4.",
+      "Generate an interactive Markmap mindmap highlighting key concepts and decisions."
     ],
     "brandColor": "#9750C4",
     "brandColorDark": "#7FE2CE",
@@ -40,17 +40,5 @@
     "composerIconDark": "./assets/icon-dark.svg",
     "logo": "./assets/icon.svg",
     "logoDark": "./assets/icon-dark.svg"
-  },
-  "extensions": {
-    "com.openai": {
-      "publication": {
-        "translations": {
-          "vi-VN": {
-            "subtitle": "Sơ đồ tư duy Markmap tương tác",
-            "description": "Tạo sơ đồ tư duy Markmap trực quan và tương tác cho AI agents. Tuân thủ nguyên tắc nhận thức (Miller's law: 4–7 nhánh chính, độ sâu 3–4 tầng, mỗi nút ≤ 8 từ) và xuất file Markdown .mindmap.md cùng HTML artifact độc lập, không phụ thuộc daemon."
-          }
-        }
-      }
-    }
   }
 }

@@ -1,19 +1,19 @@
-# Điều kiện sử dụng (Terms of Service)
+# Terms of Service
 
-Source code, skills và plugins trong repository `mindmap-skills` được phân phối theo [MIT License](LICENSE), bao gồm quyền sử dụng, sao chép, sửa đổi, sáp nhập, xuất bản và phân phối lại cùng nghĩa vụ bảo lưu bản quyền gốc.
+The source code, skills, and plugins in the `mindmap-skills` repository are distributed under the [MIT License](LICENSE), granting rights to use, copy, modify, merge, publish, and distribute copies, subject to preserving the original copyright notice.
 
-## 1. Bản chất dịch vụ
+## 1. Nature of the Software
 
-`mindmap-skills` là bộ hướng dẫn kỹ thuật (skills/prompt instructions), mẫu giao diện tĩnh (HTML/CSS) và kịch bản hỗ trợ (scripts) chạy hoàn toàn trong môi trường AI agent do người dùng lựa chọn (Claude Code, OpenAI Codex, Google Antigravity). Quy trình cốt lõi không vận hành backend, không có máy chủ phân tích telemetry và không gửi dữ liệu của bạn tới máy chủ của maintainer.
+`mindmap-skills` consists of instruction specifications (skills/prompts), client-side presentation templates (HTML/CSS), and helper scripts executing entirely within the user's chosen AI agent environment (Claude Code, OpenAI Codex, Google Antigravity). The core workflow operates without maintainer-hosted backends, telemetry collection, or remote analytical servers.
 
-## 2. Trách nhiệm người dùng
+## 2. User Responsibilities
 
-- Người dùng tự chịu trách nhiệm về quyền sở hữu hoặc quyền sử dụng hợp pháp đối với toàn bộ văn bản, tài liệu, mã nguồn hoặc kiến trúc được cung cấp làm đầu vào cho skill.
-- Không đưa vào đầu vào các thông tin thuộc danh mục bí mật cá nhân, thông tin định danh chính phủ, dữ liệu thẻ thanh toán, bí mật xác thực (API keys, passwords, tokens) hoặc dữ liệu mật nội bộ khi chưa được cấp phép.
-- Bản đồ tư duy (mindmap) được sinh ra mang tính chất hỗ trợ cấu trúc nhận thức và trực quan hóa ý tưởng; người dùng cần chủ động kiểm chứng lại tính chính xác trước khi ra quyết định kỹ thuật hoặc kinh doanh.
+- Users are solely responsible for ensuring they possess the necessary rights and authorizations to process any text, documentation, architecture specifications, or code supplied as input.
+- Users must not input PCI DSS payment information, protected health information (PHI), government identifiers, credentials, or confidential business secrets.
+- Generated mindmaps serve as cognitive structuring aids; users are responsible for independently verifying technical correctness before making architectural or production decisions.
 
-## 3. Dịch vụ bên thứ ba
+## 3. Third-Party Services
 
-Việc thực thi skill trên Claude Code, OpenAI Codex hoặc Antigravity chịu sự điều chỉnh của các điều khoản dịch vụ và chính sách dữ liệu tương ứng của Anthropic, OpenAI và Google. Giấy phép MIT của repository này không cung cấp tài khoản, API key hay hạn mức sử dụng cho các nền tảng trên.
+Execution on Claude Code, OpenAI Codex, or Google Antigravity is governed by the terms and policies of Anthropic, OpenAI, and Google respectively. The MIT license of this repository does not grant accounts, API keys, or operational quotas for third-party platforms.
 
-Báo lỗi hoặc yêu cầu cải tiến qua [GitHub Issues](https://github.com/fioenix/mindmap-skills/issues).
+Report issues or feature requests via [GitHub Issues](https://github.com/fioenix/mindmap-skills/issues).

@@ -4,4 +4,4 @@ interface:
   icon_small: "./assets/icon.svg"
   icon_large: "./assets/icon.svg"
   brand_color: "#9750C4"
-  default_prompt: "Tạo mindmap Markmap cho chủ đề này với tối đa 7 nhánh chính và độ sâu 3 tầng."
+  default_prompt: "Create an interactive Markmap mindmap for this topic with 4 to 7 main branches and depth 3 to 4."

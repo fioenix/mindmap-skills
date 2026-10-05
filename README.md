@@ -8,8 +8,8 @@
 <h1 align="center">mindmap-skills</h1>
 
 <p align="center">
-  <b>Sơ đồ tư duy Markmap cho AI Agents (Claude Code, OpenAI Codex, Google Antigravity).</b><br>
-  Chuẩn nhận thức Miller's Law & MECE · 0 daemon · 0 token tax · Render HTML độc lập.
+  <b>Universal, lightweight Markmap mindmap plugin for AI Agents (Claude Code, OpenAI Codex, Google Antigravity).</b><br>
+  Cognitive structuring with Miller's Law & MECE · 0 daemon · 0 token tax · Standalone HTML rendering.
 </p>
 
 <p align="center">
@@ -23,57 +23,57 @@
 
 ---
 
-## ⚡ Bản chất giải pháp
+## ⚡ The Solution
 
-Phần lớn giải pháp mindmap cho AI hiện nay mắc phải hai điểm nghẽn lớn:
-1. **Server MCP cồng kềnh & Token Tax**: Chạy tiến trình nền ngầm, kéo theo trình duyệt Playwright/Chromium 300MB chỉ để chụp màn hình, đồng thời đốt hơn 1.000 tokens định nghĩa schema trong mỗi lượt hội thoại dù không dùng tới.
-2. **Tràn ngập nhận thức (Cognitive Sprawl)**: Đổ nguyên đoạn văn xuôi dài dòng vào các nút con, tạo thành những "bức tường chữ" phá vỡ hoàn toàn công năng trực quan của sơ đồ tư duy.
+Most AI mindmap solutions suffer from two fatal architectural pitfalls:
+1. **Bloated MCP Servers & Idle Token Tax**: Running persistent background server processes, dragging in Playwright and a 300MB Chromium headless browser just to take a screenshot, while permanently burning 1,000+ tokens of schema definitions in every conversation turn.
+2. **Cognitive Sprawl**: Dumping raw paragraph-length prose into node trees, producing unreadable walls of text that defeat the visual purpose of a mindmap.
 
-### Bảng đối chiếu giải pháp
+### Architecture Comparison
 
-| Tiêu chí | Server MCP cồng kềnh / Headless | LLM xuất văn bản thô | **mindmap-skills** |
+| Capability | Heavyweight MCP / Headless | Raw LLM Output | **mindmap-skills** |
 |---|---|---|---|
-| **Tiến trình nền (Daemon)** | Chrome 300MB chạy ngầm liên tục | 0 MB | **0 MB (Không daemon ngầm)** |
-| **Token Tax mỗi lượt chat** | Tốn 1.000+ tokens định nghĩa tool | 0 token | **0 token overhead khi ở trạng thái nghỉ** |
-| **Cấu trúc nhận thức** | Không lọc (dump toàn bộ chữ) | Hỗn độn, thiếu trật tự | **Miller's Law (4–7 nhánh, depth 3–4, ≤ 8 từ/nút)** |
-| **Artifact đầu ra** | Ảnh chụp tĩnh (PNG không tương tác) | Đoạn text thuần | **File `.mindmap.md` + file `.html` tương tác độc lập** |
-| **Hỗ trợ đa nền tảng** | Cục bộ theo từng client | Tự do, không chuẩn hóa | **Claude Code · OpenAI Codex · Google Antigravity** |
-| **Mức độ an toàn (Security)** | Nguy cơ thực thi subprocess | An toàn | **Mẫu HTML có CSP nghiêm ngặt, chống parser breakout** |
+| **Runtime Footprint** | 300MB+ Headless Chrome daemon | 0 MB | **0 MB (Zero daemon)** |
+| **Idle Token Tax** | 1,000+ tokens burned per turn | 0 tokens | **0 token overhead when idle** |
+| **Cognitive Structuring** | None (unfiltered text dump) | Unstructured | **Miller's Law (4–7 branches, depth 3–4, ≤ 8 words)** |
+| **Output Artifacts** | Static raster image (PNG) | Raw text | **Portable `.mindmap.md` + Standalone `.html`** |
+| **Multi-Agent Parity** | Platform-specific | Inconsistent | **Claude Code · OpenAI Codex · Google Antigravity** |
+| **Security Posture** | Subprocess execution risk | Safe | **Zero-privilege core + CSP-hardened template** |
 
 ---
 
-## 🔍 Đối chiếu thực tế: Trước và Sau khi áp dụng
+## 🔍 Before vs. After Comparison
 
-| Tình huống | Trước khi áp dụng (LLM mặc định) | Sau khi cấu trúc qua `mindmap-skills` |
+| Scenario | Default LLM Output (Before) | Structured with `mindmap-skills` (After) |
 |---|---|---|
-| **Kiến trúc Gateway** | `- Hệ thống sử dụng một API Gateway chạy trên nền tảng Cloudflare Workers để xử lý xác thực các yêu cầu của người dùng thông qua mã JWT được ký bằng thuật toán mã hóa RSA...` (32 từ, lan man) | `- **Auth**: JWT với chữ ký RSA`<br>`- **Rate Limit**: Token bucket tại Edge`<br>`- ~~Kong Gateway: Chi phí hạ tầng cao~~` (Ngắn gọn, từ khóa đầu dòng, có lý do loại bỏ) |
-| **Cấu trúc nhánh** | Đổ phẳng 14 gạch đầu dòng ngang hàng nhau, gây quá tải bộ nhớ làm việc. | Gom tụ thành 4 nhánh MECE (Edge, Compute, Data, Telemetry); các nhánh sâu tự động thu gọn bằng `<!-- markmap: fold -->`. |
-| **Theo dõi quyết định** | Chỉ nêu dữ kiện tĩnh, không biết tính năng nào đã chốt, tính năng nào còn bỏ ngỏ. | `- [x] Đồng bộ state snapshot`<br>`- [ ] Cơ chế retry backoff cho WebSocket`<br>`+ Tốc độ cao / - Rủi ro stale read` |
+| **Gateway Architecture** | `- The system uses an API Gateway running on Cloudflare Workers to handle user requests, authenticating users via JWT tokens signed with RSA encryption...` (32 words, verbose narrative) | `- **Auth**: JWT with RSA signatures`<br>`- **Rate Limit**: Token bucket at edge`<br>`- ~~Kong Gateway: Excessive idle cost~~` (Concise, keyword-first, tracks rejected alternatives) |
+| **Branch Structure** | Dumps 14 flat sibling bullet points on the root, exceeding human working memory capacity. | Clusters into 4 MECE categories (Ingress, Compute, Storage, Telemetry); deep specs fold automatically with `<!-- markmap: fold -->`. |
+| **Decision Tracking** | Static descriptive text with no sense of milestone completion or pending trade-offs. | `- [x] State snapshot serialization`<br>`- [ ] WebSocket reconnection backoff`<br>`+ Low latency / - Stale read risk` |
 
 ---
 
-## 📦 Cài nhanh
+## 📦 Quick Installation
 
 ### 1. Claude Code
 
-#### Cài từ Marketplace công khai của repo (Khuyến nghị):
-Trong phiên dòng lệnh của Claude Code:
+#### Via Public Marketplace (Recommended):
+In your Claude Code terminal session:
 ```text
 /plugin marketplace add fioenix/mindmap-skills
 /plugin install mindmap-skills@fioenix-plugins
 ```
-Gọi skill trực tiếp trong cuộc hội thoại:
+Invoke the skill directly in any conversation:
 ```text
-/mindmap-skills:markmap Tạo sơ đồ tư duy cho kiến trúc microservices này
+/mindmap-skills:markmap Create an architecture mindmap for this microservices system
 ```
 
-#### Trên Claude Desktop hoặc Claude Web UI:
-1. Mở **Customize** → **Plugins** → **Add** → **Add marketplace** → **Add from a repository**.
-2. Nhập repository: `fioenix/mindmap-skills`.
-3. Trong mục **Discover**, tìm **mindmap-skills** và nhấn **Add**.
-4. Sử dụng bằng cách gõ `/markmap` hoặc chọn biểu tượng `+` trong ô chat.
+#### On Claude Desktop / Web UI:
+1. Navigate to **Customize** → **Plugins** → **Add** → **Add marketplace** → **Add from a repository**.
+2. Enter repository: `fioenix/mindmap-skills`.
+3. In Discover, select **mindmap-skills** and click **Add**.
+4. Invoke in chat using `/markmap` or via the `+` menu.
 
-#### Cài đặt cục bộ khi phát triển (Local Link):
+#### Local Development / Manual Link:
 ```bash
 claude plugin add ~/Projects/mindmap-skills
 ```
@@ -82,18 +82,18 @@ claude plugin add ~/Projects/mindmap-skills
 
 ### 2. OpenAI Codex & Agents SDK
 
-#### Cài nhanh qua Skills CLI:
+#### Via Skills CLI:
 ```bash
 npx --yes skills@1.5.20 add fioenix/mindmap-skills --global
 ```
 
-#### Quản lý qua Catalog Workspace hoặc Thư mục Agent:
+#### Via Workspace Catalog or Agent Skills Directory:
 ```bash
-# Trong một dự án cụ thể
+# In a specific project
 mkdir -p .agents/skills
 cp -r ~/Projects/mindmap-skills/skills/markmap .agents/skills/
 
-# Hoặc cài global cho máy
+# Or machine-global
 mkdir -p ~/.codex/skills
 ln -s ~/Projects/mindmap-skills/skills/markmap ~/.codex/skills/markmap
 ```
@@ -102,13 +102,13 @@ ln -s ~/Projects/mindmap-skills/skills/markmap ~/.codex/skills/markmap
 
 ### 3. Google Antigravity
 
-#### Cài đặt toàn cục (Machine-Global):
+#### Machine-Global:
 ```bash
 mkdir -p ~/.gemini/config/skills
 ln -s ~/Projects/mindmap-skills/skills/markmap ~/.gemini/config/skills/markmap
 ```
 
-#### Cài đặt theo từng Workspace dự án:
+#### Workspace-Local:
 ```bash
 mkdir -p .agents/skills
 cp -r ~/Projects/mindmap-skills/skills/markmap .agents/skills/
@@ -116,141 +116,141 @@ cp -r ~/Projects/mindmap-skills/skills/markmap .agents/skills/
 
 ---
 
-## 📋 Bộ quy tắc cấu trúc nhận thức (Cognitive Invariants)
+## 📋 Cognitive Structuring Invariants
 
-Mọi mindmap do skill tạo ra đều tuân thủ chặt chẽ các nguyên tắc cấu trúc thông tin:
+Every generated mindmap adheres strictly to official Markmap standards and information architecture principles:
 
-* **Miller's Law (4–7 nhánh chính `##`)**: Giới hạn số lượng nhánh cấp 1 theo dung lượng bộ nhớ làm việc của não bộ. Luôn gom nhóm các thành phần liên quan vào các cụm chủ đề thay vì liệt kê dàn trải.
-* **Phân loại MECE (Không trùng lặp, Không bỏ sót)**: Các nhánh con ở cùng một tầng phải phân chia theo một trục logic duy nhất (ví dụ: tầng kiến trúc, vòng đời dữ liệu, hoặc nhóm tác nhân), không để lẫn lộn thuộc tính phi chức năng với thành phần hệ thống.
-* **Cân bằng mật độ nhánh (Branch Equilibrium)**: Khi một nhánh có trên 7 nút con, bắt buộc gom nhóm trung gian (`###`) để giữ bố cục sơ đồ cân đối, tránh lệch trọng tâm thị giác.
-* **Khai mở tăng tiến (`<!-- markmap: fold -->`)**: Tầng 1 và 2 luôn mở sẵn để người đọc nắm bắt toàn cảnh trong 5 giây. Các nhánh sâu từ tầng 3 trở đi hoặc danh sách thông số kỹ thuật chi tiết phải tự động gấp lại (`<!-- markmap: fold -->`), cho phép người dùng click mở khi cần đào sâu.
-* **Mã hóa quyết định kiến trúc**:
-  - `- [x]` Đã thống nhất / Hoàn thành
-  - `- [ ]` Câu hỏi mở / Đang chờ chốt
-  - `~~Phương án loại trừ~~`: Ghi nhận lý do phương án bị từ chối
-  - `==Điểm nghẽn / Trọng tâm rủi ro==`: Đánh dấu thành phần nhạy cảm
-  - `+ Lợi thế / - Chi phí đánh đổi`: Chỉ rõ ai là bên trả giá cho quyết định kiến trúc
+* **Miller's Law (4–7 Main Branches `##`)**: Limits top-level branches to match human working memory capacity. Always cluster related concepts into umbrella categories rather than dumping flat lists.
+* **MECE Taxonomy (Mutually Exclusive, Collectively Exhaustive)**: Sibling branches at the same depth share a single logical classification axis (e.g. system layers, data lifecycle stages, or user personas) without semantic overlap.
+* **Branch Density Equilibrium**: Automatically partitions lop-sided branches (> 7 children) into intermediate sub-groups (`###`) to maintain visual balance.
+* **Progressive Disclosure (`<!-- markmap: fold -->`)**: High-level branches (Tiers 1–2) remain open for 5-second scanning, while deep implementation nodes (depth ≥ 3) or dense technical parameters fold by default to prevent visual fatigue.
+* **Decision & Status Encoding**:
+  - `- [x]` Completed / Confirmed milestone
+  - `- [ ]` Open Question / Pending decision
+  - `~~Discarded Alternative~~`: Documents why an option was rejected
+  - `==Critical Path / Bottleneck==`: Highlights focal architectural risks
+  - `+ Advantage / - Cost Dyads`: Explicitly states who pays the trade-off
 
 ```markdown
 ---
-title: Kiến trúc Finolabs Gateway
+title: Finolabs Agent Gateway Architecture
 markmap:
   colorFreezeLevel: 2
 ---
 
-## Ingress Gateway (MECE: Cổng biên)
+## Ingress Gateway (MECE: Ingress)
 - **Runtime**: Cloudflare Workers
-- **Security**: JWT với chữ ký RSA
-- ~~Kong Gateway: Chi phí hạ tầng cao~~
+- **Security**: JWT with RSA signatures
+- ~~Alternative: Self-hosted Kong (High idle cost)~~
 
-## Storage Tier (MECE: Lưu trữ)
-- **Metadata**: Cloudflare D1
-  - `+ Truy vấn SQLite độ trễ cực thấp`
-  - `- Giới hạn ghi đơn luồng`
-- **Blobs**: Cloudflare R2
-- ~~AWS S3: Phí egress dữ liệu cao~~
+## Storage Tier (MECE: Persistence)
+- **Metadata**: Cloudflare D1 (SQLite)
+  - `+ Low latency, zero cold starts`
+  - `- Single-writer concurrency ceiling`
+- **Blobs**: Cloudflare R2 object store
+- ~~Alternative: AWS S3 (High egress fees)~~
 
-## Telemetry (MECE: Quan sát) <!-- markmap: fold -->
+## Telemetry (MECE: Observability) <!-- markmap: fold -->
 - **Traces**: OpenTelemetry collector
 - **Metrics**: Cloudflare Analytics Engine
-- **Nhiệm vụ còn mở**:
-  - - [ ] Đánh giá tần suất sampling 5%
-  - - [x] Bật tail-based sampling
+- **Pending Tasks**:
+  - - [ ] Benchmark 5% trace sampling rate
+  - - [x] Enable tail-based sampling
 ```
 
 ---
 
-## 🔄 Hướng dẫn phối hợp kỹ năng (Multi-Skill Synergy)
+## 🔄 Opportunistic Multi-Skill Synergy
 
-`mindmap-skills` được thiết kế theo nguyên tắc **Zero-Coercion & Zero-Hard-Dependency**: hoạt động độc lập 100% không đòi hỏi bất kỳ công cụ ngoài nào. Tuy nhiên, khi agent harness có sẵn các skills bổ trợ, nó sẽ đóng vai trò là **Bộ gom tụ trực quan (Visual Converger)**:
+`mindmap-skills` is built on a **Zero-Coercion, Zero-Hard-Dependency** model: it works 100% standalone out of the box. However, when paired with complementary skills inside an agent harness, it acts as a high-value **Visual Converger**:
 
-| Skill có trong Harness | Vai trò của Skill đó | Cách `markmap` tiếp nhận & phối hợp |
+| Skill in Harness | Upstream Role | `markmap` Downstream Role |
 |---|---|---|
-| **`grilling`** | Phản biện giả định ngầm, bóc tách rủi ro, chốt các đánh đổi kiến trúc. | **Bản đồ quyết định (Decision Tree)**: Đóng gói lại các phương án đã chọn, phương án bị loại (`~~...~~`), invariants bảo vệ và các đầu việc cần làm (`- [ ]`). |
-| **`brainstorming`** | Phóng tác ý tưởng tự do, mở rộng các phương án tiềm năng. | **Bộ gom cụm nhận thức (Affinity Map)**: Gom hàng chục ý tưởng tản mạn thành 4–7 cụm MECE, phân cấp thứ tự ưu tiên và gấp các nhánh chi tiết. |
-| **Spec Kit (`.specify/`)** | Xây dựng đặc tả yêu cầu chức năng hệ thống (`spec.md`). | **Phân rã chức năng (Functional Decomposition)**: Trực quan hóa User Stories, quan hệ thực thể dữ liệu và Acceptance Criteria. |
+| **`grilling`** | Stress-tests ideas, exposes hidden assumptions, challenges trade-offs. | **Visual Decision Tree**: Synthesizes grilled decisions, struck-out options (`~~...~~`), and confirmed invariants. |
+| **`brainstorming`** | Divergent thinking, exploratory ideation, sprawling idea generation. | **Convergent Affinity Map**: Gathers unstructured ideas into 4–7 MECE categories with actionable checkboxes. |
+| **Spec Kit (`.specify/`)** | Defines formal functional specifications (`spec.md`). | **Functional Decomposition**: Visually maps user stories, data entities, and acceptance criteria. |
 
-### Các kịch bản sử dụng thực tế:
+### Practical Synergy Scenarios:
 
-#### Kịch bản 1: Phối hợp cùng `grilling`
-> **User Prompt:** *"Hãy dùng grilling để phản biện và chốt kiến trúc này, sau đó dùng markmap để vẽ lại toàn bộ quyết định thành sơ đồ tư duy."*
+#### Scenario 1: Paired with `grilling`
+> **User Prompt:** *"Use grilling to stress-test this architecture proposal, then synthesize the decisions into a mindmap."*
 > 
-> **Hành động của Agent:**
-> 1. Chạy quy trình `grilling` để phỏng vấn, bóc tách rủi ro và xác nhận các ràng buộc kỹ thuật.
-> 2. Chốt các quyết định cốt lõi.
-> 3. Tự động chuyển giao sang `markmap` để tạo ra file `.mindmap.md` tổng kết kiến trúc: đánh dấu các phương án được duyệt, gạch bỏ các phương án loại trừ (`~~...~~`) và gắn các task pending (`- [ ]`).
+> **Agent Execution:**
+> 1. Runs `grilling` to probe boundary conditions, unearth trade-offs, and challenge assumptions.
+> 2. Finalizes core architectural agreements.
+> 3. Handoff to `markmap` to emit `.mindmap.md`: highlighting confirmed paths, crossing out discarded alternatives (`~~...~~`), and flagging remaining open loops (`- [ ]`).
 
-#### Kịch bản 2: Phối hợp cùng `brainstorming`
-> **User Prompt:** *"Brainstorm 10 hướng phát triển tính năng cho app, sau đó dùng markmap gom nhóm trực quan."*
+#### Scenario 2: Paired with `brainstorming`
+> **User Prompt:** *"Brainstorm 10 growth features for this product, then organize them into a clean mindmap."*
 > 
-> **Hành động của Agent:**
-> 1. Chạy quy trình `brainstorming` để sinh ra các ý tưởng đột phá.
-> 2. Sử dụng `markmap` để phân loại 10 ý tưởng đó vào 4 nhánh MECE (ví dụ: Growth, Retention, Monetization, Infra).
-> 3. Thêm cờ `<!-- markmap: fold -->` cho các ý tưởng nhánh phụ và xuất ra file HTML artifact để người dùng xem ngay.
+> **Agent Execution:**
+> 1. Runs `brainstorming` for divergent ideation.
+> 2. Invokes `markmap` to converge ideas into 4–7 MECE clusters (e.g. Acquisition, Activation, Retention, Monetization).
+> 3. Applies `<!-- markmap: fold -->` to secondary branches and emits an interactive HTML artifact.
 
-#### Kịch bản 3: Chạy độc lập (Standalone)
-> Khi môi trường của người dùng không cài đặt `grilling` hay `brainstorming`, skill thực thi trực tiếp từ văn bản hoặc tài liệu của người dùng, **tuyệt đối không yêu cầu người dùng cài đặt thêm công cụ nào khác**.
+#### Scenario 3: Standalone Execution
+> When auxiliary skills are absent from the harness, `markmap` processes user requests directly, **never prompting or nagging the user to install additional packages**.
 
 ---
 
-## 🛠️ Cấu trúc Repository
+## 🛠️ Repository Architecture
 
 ```text
 mindmap-skills/
 ├── .github/
 │   ├── workflows/
-│   │   └── ci.yml              # Quy trình kiểm thử tự động trên GitHub Actions
-│   ├── ISSUE_TEMPLATE/         # Biểu mẫu báo lỗi và đề xuất tính năng
-│   └── PULL_REQUEST_TEMPLATE.md# Checklist kiểm tra trước khi merge PR
+│   │   └── ci.yml              # Automated GitHub Actions CI workflow
+│   ├── ISSUE_TEMPLATE/         # Structured bug & feature request templates
+│   └── PULL_REQUEST_TEMPLATE.md# Pull request validation checklist
 ├── .claude-plugin/
-│   ├── marketplace.json        # Định nghĩa catalog marketplace cho Claude Code
-│   └── plugin.json             # Manifest plugin Claude Code (URLs, icons, tags)
+│   ├── marketplace.json        # Claude Code marketplace catalog definition
+│   └── plugin.json             # Claude Code plugin manifest (with URLs & icons)
 ├── .codex-plugin/
-│   └── plugin.json             # Manifest plugin OpenAI Codex (interface, translations)
+│   └── plugin.json             # OpenAI Codex plugin manifest (interface & translations)
 ├── .codex/
-│   └── plugin.json             # Manifest tương thích Codex phiên bản cũ
+│   └── plugin.json             # Legacy Codex compatibility manifest
 ├── .agents/
 │   └── plugins/
-│       └── marketplace.json    # Catalog phân phối cho hệ sinh thái AI Agents
+│       └── marketplace.json    # Agent ecosystem distribution catalog
 ├── agents/
-│   └── openai.yaml             # Đặc tả giao diện agent
-├── plugin.json                 # Manifest chuẩn Antigravity / Universal
-├── package.json                # Package descriptor cho npm / skills.sh
+│   └── openai.yaml             # Agent interface specification
+├── plugin.json                 # Universal / Antigravity plugin descriptor
+├── package.json                # npm / skills.sh package descriptor
 ├── assets/
-│   ├── icon.svg                # Icon vector squircle giao diện sáng (FINOLABS tokens)
-│   ├── icon-dark.svg           # Icon vector giao diện tối (Dark mode)
-│   └── icon.png                # Icon bitmap vuông 512x512
-├── logo.svg                    # Vector logo gốc
-├── LICENSE                     # Giấy phép mã nguồn mở MIT
-├── README.md                   # Tài liệu hướng dẫn sử dụng chính
-├── CONTRIBUTING.md             # Hướng dẫn đóng góp & kiểm thử offline
-├── PRIVACY.md                  # Chính sách bảo mật & dữ liệu
-├── TERMS.md                    # Điều kiện sử dụng
+│   ├── icon.svg                # Vector SVG icon (FINOLABS Design System)
+│   ├── icon-dark.svg           # Dark mode vector SVG icon
+│   └── icon.png                # 512x512 PNG marketplace icon
+├── logo.svg                    # Root vector logo
+├── LICENSE                     # MIT License
+├── README.md                   # Product documentation & usage guide
+├── CONTRIBUTING.md             # Contribution guidelines & offline testing
+├── PRIVACY.md                  # Privacy policy & data governance
+├── TERMS.md                    # Terms of service
 ├── skills/
 │   └── markmap/
-│       ├── SKILL.md            # Chỉ dẫn hành vi và ràng buộc kỹ thuật của skill
+│       ├── SKILL.md            # Canonical skill instructions & prompt constraints
 │       └── assets/
-│           └── template.html   # Template HTML độc lập (được bảo vệ bằng CSP)
+│           └── template.html   # Standalone HTML artifact template (CSP hardened)
 ├── scripts/
-│   ├── build_icon.py           # Script build icon vector tự động
-│   └── render.sh               # Script wrapper dòng lệnh (markmap-cli)
+│   ├── build_icon.py           # Portable vector icon renderer
+│   └── render.sh               # Hardened CLI helper (markmap-cli wrapper)
 └── tests/
-    └── validate.sh             # Bộ kiểm chứng tự động 8 gates trước khi phát hành
+    └── validate.sh             # Automated validation & test suite (8 gates)
 ```
 
 ---
 
-## 🔒 An toàn & Bảo mật thông tin
+## 🔒 Security Posture & Privacy
 
-* **Không vận hành backend & Không telemetry**: Toàn bộ quá trình tạo mindmap diễn ra nội bộ trong phiên làm việc của agent. Không có bất kỳ dữ liệu nào bị gửi tới máy chủ của maintainer.
-* **Bảo vệ chống XSS & Parser Breakout**: Template HTML nhúng sẵn tiêu đề Content Security Policy (CSP) chặt chẽ và tự động thoát chuỗi `</script` thành `<\/script` trong nội dung Markdown để ngăn chặn tiêm mã độc.
-* **Ngăn chặn CLI Option Injection**: Kịch bản `scripts/render.sh` kết thúc cờ dòng lệnh bằng `--` trước khi truyền tham số tệp để ngăn chặn tệp độc hại kích hoạt cờ trái phép.
-* **Chính sách dữ liệu**: Xem chi tiết tại [PRIVACY.md](PRIVACY.md) và [TERMS.md](TERMS.md).
+* **Zero Backend & No Telemetry**: The skill does not communicate with any external backend or analytics service. Data remains strictly within the user's host environment.
+* **XSS & Parser Breakout Protection**: The standalone template enforces Content Security Policy (CSP) headers and documents strict escaping of `</script` as `<\/script` to prevent premature script termination and DOM injection.
+* **CLI Option Injection Guard**: `scripts/render.sh` terminates argument parsing with `--` (`markmap-cli --offline -o "$OUTPUT" --no-open -- "$INPUT"`) to prevent untrusted input from triggering CLI flags.
+* **Sensitive Data Policy**: See [PRIVACY.md](PRIVACY.md) and [TERMS.md](TERMS.md).
 
 ---
 
-## 📄 Bản quyền & Đóng góp
+## 📄 License & Community
 
-* **Giấy phép**: [MIT License](LICENSE) © [Fioenix](https://github.com/fioenix)
-* **Đóng góp**: Đọc kỹ [CONTRIBUTING.md](CONTRIBUTING.md) trước khi tạo pull request.
-* **Báo lỗi & Thảo luận**: [GitHub Issues](https://github.com/fioenix/mindmap-skills/issues)
+* **License**: [MIT License](LICENSE) © [Fioenix](https://github.com/fioenix)
+* **Contributing**: Read [CONTRIBUTING.md](CONTRIBUTING.md) before submitting pull requests.
+* **Issues & Feedback**: [GitHub Issues](https://github.com/fioenix/mindmap-skills/issues)
