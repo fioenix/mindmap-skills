@@ -1,0 +1,7 @@
+interface:
+  display_name: "Mindmap Skills"
+  short_description: "Interactive Markmap mindmaps with cognitive structuring"
+  icon_small: "./assets/icon.svg"
+  icon_large: "./assets/icon.svg"
+  brand_color: "#9750C4"
+  default_prompt: "Tạo mindmap Markmap cho chủ đề này với tối đa 7 nhánh chính và độ sâu 3 tầng."

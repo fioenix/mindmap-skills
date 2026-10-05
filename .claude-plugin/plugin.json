@@ -1,16 +1,20 @@
 {
-  "$schema": "https://anthropic.com/claude-code/plugin.schema.json",
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
   "name": "mindmap-skills",
   "displayName": "Mindmap Skills",
-  "version": "1.0.0",
+  "skills": "./skills/markmap",
+  "icon": "./assets/icon.svg",
+  "documentationUrl": "https://github.com/fioenix/mindmap-skills#readme",
+  "supportUrl": "https://github.com/fioenix/mindmap-skills/issues",
+  "privacyPolicyUrl": "https://github.com/fioenix/mindmap-skills/blob/main/PRIVACY.md",
+  "termsOfServiceUrl": "https://github.com/fioenix/mindmap-skills/blob/main/TERMS.md",
   "description": "Universal Markmap mindmaps for AI agents. Enforces cognitive structuring (single root, 4–7 branches, depth 3–4, brevity <= 8 words) and outputs clean .mindmap.md plus zero-dependency standalone HTML artifacts.",
+  "version": "1.0.0",
   "author": {
     "name": "Fioenix",
-    "email": "tangduyphuong@gmail.com",
     "url": "https://github.com/fioenix"
   },
-  "icon": "./assets/icon.png",
-  "homepage": "https://github.com/fioenix/mindmap-skills#readme",
+  "homepage": "https://github.com/fioenix/mindmap-skills",
   "repository": "https://github.com/fioenix/mindmap-skills",
   "license": "MIT",
   "keywords": [
@@ -23,6 +27,5 @@
     "codex",
     "antigravity",
     "agent-skills"
-  ],
-  "skills": "./skills/markmap"
+  ]
 }

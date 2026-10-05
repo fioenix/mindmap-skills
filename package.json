@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Universal Markmap mindmaps for AI agents (Claude Code, Codex, Antigravity) with official syntax and robust standalone HTML rendering.",
   "type": "module",
-  "icon": "./assets/icon.png",
+  "icon": "./assets/icon.svg",
   "scripts": {
     "test": "bash tests/validate.sh",
     "validate": "bash tests/validate.sh"
@@ -15,9 +15,15 @@
     "claude-code",
     "codex",
     "antigravity",
-    "skills"
+    "skills",
+    "visualization",
+    "brainstorming",
+    "diagram"
   ],
-  "author": "Fioenix <tangduyphuong@gmail.com>",
+  "author": {
+    "name": "Fioenix",
+    "url": "https://github.com/fioenix"
+  },
   "license": "MIT",
   "homepage": "https://github.com/fioenix/mindmap-skills#readme",
   "repository": {
@@ -34,6 +40,9 @@
     "logo.svg",
     "plugin.json",
     "README.md",
-    "LICENSE"
+    "LICENSE",
+    "PRIVACY.md",
+    "TERMS.md",
+    "CONTRIBUTING.md"
   ]
 }

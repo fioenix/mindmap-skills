@@ -1,0 +1,20 @@
+{
+  "name": "fioenix-plugins",
+  "interface": {
+    "displayName": "Fioenix Plugins"
+  },
+  "plugins": [
+    {
+      "name": "mindmap-skills",
+      "source": {
+        "source": "local",
+        "path": "./"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}
