@@ -40,3 +40,8 @@ tmp/
 # Agent local tooling vs distribution catalog
 .agents/skills/
 !.agents/plugins/marketplace.json
+
+# Spec Kit (local only)
+.specify/
+specs/
+.claude/
