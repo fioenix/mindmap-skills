@@ -1,84 +1,84 @@
 #!/usr/bin/env python3
-import math
 import os
 import subprocess
-import base64
 from PIL import Image
 
-def generate_conic_background(size=512):
-    # FINOLABS signature token: --fn-gradient-iridescent
-    # conic-gradient(from 220deg at 60% 40%, #BFE9C6 0deg, #87D3E1 70deg, #B49BD8 150deg, #9750C4 210deg, #C9A8E5 270deg, #7FE2CE 330deg, #BFE9C6 360deg)
-    stops = [
-        (0.0,   (191, 233, 198)),  # #BFE9C6 0deg
-        (70.0,  (135, 211, 225)),  # #87D3E1 70deg
-        (150.0, (180, 155, 216)),  # #B49BD8 150deg
-        (210.0, (151, 80,  196)),  # #9750C4 210deg
-        (270.0, (201, 168, 229)),  # #C9A8E5 270deg
-        (330.0, (127, 226, 206)),  # #7FE2CE 330deg
-        (360.0, (191, 233, 198)),  # #BFE9C6 360deg
-    ]
-    img = Image.new("RGBA", (size, size))
-    pixels = img.load()
-    cx = size * 0.60
-    cy = size * 0.40
-    
-    for y in range(size):
-        for x in range(size):
-            dx = x - cx
-            dy = y - cy
-            angle_deg = math.degrees(math.atan2(dy, dx))
-            deg = (angle_deg - 220.0) % 360.0
-            if deg < 0:
-                deg += 360.0
-            for i in range(len(stops) - 1):
-                d0, c0 = stops[i]
-                d1, c1 = stops[i+1]
-                if d0 <= deg <= d1:
-                    t = (deg - d0) / (d1 - d0)
-                    r = int(c0[0] + (c1[0] - c0[0]) * t)
-                    g = int(c0[1] + (c1[1] - c0[1]) * t)
-                    b = int(c0[2] + (c1[2] - c0[2]) * t)
-                    pixels[x, y] = (r, g, b, 255)
-                    break
-    return img
-
-def main():
-    repo_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    bg_img = generate_conic_background(512)
-    bg_path = "/tmp/fn_conic_bg.png"
-    bg_img.save(bg_path, format="PNG")
-    
-    with open(bg_path, "rb") as f:
-        bg_b64 = base64.b64encode(f.read()).decode("utf-8")
-
-    svg_content = f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+def generate_svg():
+    return '''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
   <defs>
-    <!-- Squircle shape clipping (FINOLABS Apple-style standard) -->
+    <!-- Apple / FINOLABS standard squircle -->
     <clipPath id="squircle-clip">
-      <rect x="0" y="0" width="512" height="512" rx="108" ry="108" />
+      <rect x="0" y="0" width="512" height="512" rx="112" ry="112" />
     </clipPath>
-    <!-- Soft shadow for 3D elevation on iridescent ground -->
-    <filter id="soft-shadow" x="-20%" y="-20%" width="140%" height="140%">
+
+    <!-- FINOLABS Signature Iridescent Gradient (pure vector linear) -->
+    <linearGradient id="fn-iridescent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#BFE9C6" />
+      <stop offset="28%" stop-color="#87D3E1" />
+      <stop offset="68%" stop-color="#C9A8E5" />
+      <stop offset="100%" stop-color="#9750C4" />
+    </linearGradient>
+
+    <!-- Elevation drop shadow per FINOLABS shadow-xl token -->
+    <filter id="ink-elevation" x="-20%" y="-20%" width="140%" height="140%">
       <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#0B0B17" flood-opacity="0.22" />
     </filter>
   </defs>
 
-  <!-- Background: FINOLABS Signature Iridescent Conic Swirl -->
   <g clip-path="url(#squircle-clip)">
-    <image href="data:image/png;base64,{bg_b64}" width="512" height="512" preserveAspectRatio="none" />
-  </g>
+    <!-- Surface: FINOLABS Iridescent Gradient -->
+    <rect width="512" height="512" fill="url(#fn-iridescent)" />
 
-  <!-- Foreground: Pure Minimalist Markmap Branching Glyph -->
-  <g filter="url(#soft-shadow)" fill="none" stroke="#FFFFFF" stroke-width="36" stroke-linecap="round" stroke-linejoin="round">
-    <!-- Horizontal Stem -->
-    <path d="M 115 256 L 385 256" />
-    <!-- Branching Arc -->
-    <path d="M 365 145 C 285 145, 235 180, 235 256 C 235 332, 285 367, 365 367" />
+    <!-- Foreground: Precision Architectural Mindmap in Lab Ink (#0B0B17) -->
+    <g filter="url(#ink-elevation)">
+      <!-- Branches (Strokes) -->
+      <g fill="none" stroke="#0B0B17" stroke-linecap="round" stroke-linejoin="round">
+        <!-- Main Branch 1 (Top) -->
+        <path d="M 135 256 C 210 256, 220 156, 305 156 L 320 156" stroke-width="18" />
+        <path d="M 320 156 C 355 156, 365 112, 390 112 L 415 112" stroke-width="12" />
+        <path d="M 320 156 C 355 156, 365 184, 390 184 L 415 184" stroke-width="12" />
+
+        <!-- Main Branch 2 (Middle) -->
+        <path d="M 135 256 L 335 256" stroke-width="18" />
+        <path d="M 335 256 L 415 256" stroke-width="12" />
+
+        <!-- Main Branch 3 (Bottom) -->
+        <path d="M 135 256 C 210 256, 220 356, 305 356 L 320 356" stroke-width="18" />
+        <path d="M 320 356 C 355 356, 365 328, 390 328 L 415 328" stroke-width="12" />
+        <path d="M 320 356 C 355 356, 365 400, 390 400 L 415 400" stroke-width="12" />
+      </g>
+
+      <!-- Nodes -->
+      <!-- Root Node (Major Hub) -->
+      <circle cx="135" cy="256" r="28" fill="#0B0B17" />
+      <circle cx="135" cy="256" r="11" fill="#FFFFFF" />
+
+      <!-- Level 1 Nodes (Junctions) -->
+      <circle cx="320" cy="156" r="18" fill="#0B0B17" />
+      <circle cx="320" cy="156" r="7.5" fill="#FFFFFF" />
+
+      <circle cx="335" cy="256" r="18" fill="#0B0B17" />
+      <circle cx="335" cy="256" r="7.5" fill="#FFFFFF" />
+
+      <circle cx="320" cy="356" r="18" fill="#0B0B17" />
+      <circle cx="320" cy="356" r="7.5" fill="#FFFFFF" />
+
+      <!-- Level 2 Leaf Terminals (Solid Dots) -->
+      <circle cx="415" cy="112" r="11" fill="#0B0B17" />
+      <circle cx="415" cy="184" r="11" fill="#0B0B17" />
+      <circle cx="415" cy="256" r="11" fill="#0B0B17" />
+      <circle cx="415" cy="328" r="11" fill="#0B0B17" />
+      <circle cx="415" cy="400" r="11" fill="#0B0B17" />
+    </g>
   </g>
 </svg>
 '''
 
-    # Write SVG files
+def main():
+    repo_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    svg_content = generate_svg()
+
+    # Write SVG files (assets/icon.svg and logo.svg)
     icon_svg_path = os.path.join(repo_dir, "assets/icon.svg")
     logo_svg_path = os.path.join(repo_dir, "logo.svg")
     
@@ -86,7 +86,7 @@ def main():
         f.write(svg_content)
     with open(logo_svg_path, "w") as f:
         f.write(svg_content)
-    print("Updated assets/icon.svg and logo.svg")
+    print("Updated assets/icon.svg and logo.svg (pure vector SVG)")
 
     # Render PNG using macOS qlmanage
     subprocess.run(["qlmanage", "-t", "-s", "512", "-o", "/tmp", icon_svg_path], check=True)
