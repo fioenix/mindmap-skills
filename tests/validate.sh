@@ -173,6 +173,10 @@ REQUIRED_SECTIONS=(
   "When NOT to Trigger"
   "Official Frontmatter Standard"
   "Cognitive Structuring Rules"
+  "MECE Categorization"
+  "Progressive Disclosure"
+  "Decision & Status Encoding"
+  "Opportunistic Skill Synergy"
   "Dependency Contract & Graceful Fallback"
   "Security Posture & Privacy Guardrails"
 )
@@ -182,7 +186,7 @@ for sec in "${REQUIRED_SECTIONS[@]}"; do
     exit 1
   fi
 done
-echo "  ✓ All architectural sections present in SKILL.md"
+echo "  ✓ All architectural & cognitive sections present in SKILL.md"
 
 TEMPLATE="skills/markmap/assets/template.html"
 if ! grep -q "Content-Security-Policy" "$TEMPLATE"; then

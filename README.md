@@ -98,41 +98,61 @@ cp -r ~/Projects/mindmap-skills/skills/markmap .agents/skills/
 
 ---
 
-## 📋 Cognitive Structuring & Markmap Syntax
+## 📋 Cognitive Structuring Invariants
 
-Every generated mindmap adheres strictly to official Markmap standards:
+Every generated mindmap adheres strictly to official Markmap standards and information architecture principles:
+
+* **Miller's Law (4–7 Main Branches)**: Strictly respects human working memory limits. Group related concepts into umbrella categories rather than dumping 10+ top-level nodes.
+* **MECE Taxonomy (Mutually Exclusive, Collectively Exhaustive)**: Sibling branches at the same depth share a single logical classification axis without semantic overlap.
+* **Branch Density Equilibrium**: Automatically partitions lop-sided branches (> 7 children) into intermediate sub-groups (`###`).
+* **Progressive Disclosure (`<!-- markmap: fold -->`)**: High-level branches remain open for 5-second scanning, while deep implementation nodes (depth ≥ 3) or dense specifications fold by default to prevent visual fatigue.
+* **Decision & Status Encoding**:
+  - `- [x]` Completed / Confirmed milestone
+  - `- [ ]` Open Question / Pending decision
+  - `~~Discarded Alternative~~`: Explains why an option was rejected
+  - `==Critical Path / Bottleneck==`: Highlights focal architectural risks
+  - `+ Advantage / - Cost Dyads`: Explicitly states who pays the trade-off
 
 ```markdown
 ---
-title: System Architecture
+title: System Architecture & Decision Map
 markmap:
   colorFreezeLevel: 2
 ---
 
-## Core Gateway
-- **Auth**: JWT verification with RSA
-- **Rate Limit**: Token bucket at edge
-- **Routing**: Dynamic endpoint dispatch
+## Edge Gateway (MECE: Ingress)
+- **Runtime**: Cloudflare Workers
+- **Security**: JWT with RSA signatures
+- ~~Alternative: Self-hosted Kong (High idle cost)~~
 
-## Storage Layer
-- **KV**: Session cache & token blacklist
-- **D1**: SQLite transactional metadata
-- **R2**: Blob and artifact storage
+## Storage Tier (MECE: Persistence)
+- **Metadata**: Cloudflare D1
+  - `+ Low latency SQLite`
+  - `- Single-writer concurrency ceiling`
+- **Blobs**: Cloudflare R2
+- ~~Alternative: AWS S3 (High egress fees)~~
 
-## Observability <!-- markmap: fold -->
-- **Traces**: OpenTelemetry collectors
+## Observability (MECE: Telemetry) <!-- markmap: fold -->
+- **Traces**: OpenTelemetry collector
 - **Metrics**: Cloudflare Analytics Engine
-- **Audit**: Immutable append-only logs
+- **Pending Actions**:
+  - - [ ] Tune sampling rate to 5%
+  - - [x] Enable tail-based sampling
 ```
 
-### Cognitive Invariants:
-* `title`: Frontmatter root node. Main branches start directly at `##`.
-* `colorFreezeLevel: 2`: Freezes branch colors at depth 2 (each `##` gets a consistent distinct color for all descendants).
-* **4–7 Main Branches**: Strictly enforces Miller's Law for working memory retention.
-* **Concise Nodes (≤ 8 words)**: Punchline and keyword first. Strips narrative filler prose.
-* `<!-- markmap: fold -->`: Automatically collapses dense or secondary sub-trees on load.
-* `- [x]` / `- [ ]`: Interactive checklists.
-* `$formula$`: Native math rendering via KaTeX.
+---
+
+## 🔄 Opportunistic Multi-Skill Synergy
+
+`mindmap-skills` is built on a **Zero-Coercion, Zero-Hard-Dependency** model: it works 100% standalone out of the box. However, when paired with complementary skills inside an agent harness, it acts as a high-value **Visual Converger**:
+
+| Skill in Harness | Upstream Role | `markmap` Downstream Role |
+|---|---|---|
+| **`grilling`** | Stress-tests ideas, exposes hidden assumptions, challenges trade-offs. | **Visual Decision Tree**: Synthesizes grilled decisions, struck-out options (`~~...~~`), and confirmed invariants. |
+| **`brainstorming`** | Divergent thinking, exploratory ideation, sprawling idea generation. | **Convergent Affinity Map**: Gathers unstructured ideas into 4–7 MECE categories with actionable checkboxes. |
+| **Spec Kit (`.specify/`)** | Defines formal functional specifications (`spec.md`). | **Functional Decomposition**: Visually maps user stories, data entities, and acceptance criteria. |
+
+*Rule*: If auxiliary skills are absent, `mindmap-skills` operates standalone with zero friction, without prompting or nagging the user to install additional packages.
 
 ---
 
