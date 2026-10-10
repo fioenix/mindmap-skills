@@ -233,7 +233,8 @@ mindmap-skills/
 │           └── template.html   # Standalone HTML artifact template (CSP hardened)
 ├── scripts/
 │   ├── build_icon.py           # Portable vector icon renderer
-│   └── render.sh               # Hardened CLI helper (markmap-cli wrapper)
+│   ├── render.sh               # Hardened CLI helper (markmap-cli wrapper)
+│   └── sync_version.sh         # Propagates package.json version to every manifest
 └── tests/
     └── validate.sh             # Automated validation & test suite (8 gates)
 ```

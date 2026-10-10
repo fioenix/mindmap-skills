@@ -25,6 +25,7 @@ claude plugin validate --strict .
 
 The test suite validates:
 - JSON integrity across all manifest descriptors (`package.json`, `plugin.json`, `.claude-plugin/`, `.codex-plugin/`, `.agents/`).
+- Version parity across every versioned manifest via `scripts/sync_version.sh --check`. To bump, run `bash scripts/sync_version.sh <new-version>` instead of editing manifests by hand.
 - String length constraints for marketplace listings (`displayName` ≤ 30, `shortDescription` ≤ 30, `defaultPrompt` ≤ 128 characters).
 - Image and SVG asset format compliance (`assets/icon.svg`, `assets/icon-dark.svg`, `assets/icon.png`, `logo.svg`).
 - Shell script syntax and executable permissions.
