@@ -20,6 +20,8 @@ VERSIONED_FILES=(
   ".claude-plugin/marketplace.json"
   ".codex-plugin/plugin.json"
   ".codex/plugin.json"
+  "package-lock.json"
+  "package-lock.json"
 )
 VERSION_PATHS=(
   ".version"
@@ -27,6 +29,8 @@ VERSION_PATHS=(
   "(.plugins[] | select(.name == \$name) | .version)"
   ".version"
   ".version"
+  ".version"
+  ".packages[\"\"].version"
 )
 
 read_version() {
