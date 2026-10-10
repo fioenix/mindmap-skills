@@ -1,7 +1,7 @@
 {
   "name": "mindmap-skills",
   "displayName": "Mindmap Skills",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Universal Markmap mindmaps for AI agents. Enforces cognitive structuring (single root, 4–7 branches, depth 3–4, brevity <= 8 words) and outputs clean .mindmap.md plus zero-dependency standalone HTML artifacts.",
   "author": {
     "name": "Fioenix",
