@@ -32,17 +32,8 @@ done
 
 echo ""
 echo "=== [2/8] Version Parity Across Manifests ==="
+bash scripts/sync_version.sh --check
 PKG_VER=$(jq -r '.version' package.json)
-ROOT_VER=$(jq -r '.version' plugin.json)
-CLAUDE_VER=$(jq -r '.version' .claude-plugin/plugin.json)
-CODEX_VER=$(jq -r '.version' .codex-plugin/plugin.json)
-LEGACY_CODEX_VER=$(jq -r '.version' .codex/plugin.json)
-
-echo "  Versions detected: pkg=$PKG_VER, root=$ROOT_VER, claude=$CLAUDE_VER, codex=$CODEX_VER"
-if [[ "$PKG_VER" != "$ROOT_VER" || "$PKG_VER" != "$CLAUDE_VER" || "$PKG_VER" != "$CODEX_VER" || "$PKG_VER" != "$LEGACY_CODEX_VER" ]]; then
-  echo "❌ Version mismatch detected across manifests!" >&2
-  exit 1
-fi
 echo "  ✓ All manifests share unified version: $PKG_VER"
 
 echo ""
@@ -195,12 +186,14 @@ if ! grep -q "Content-Security-Policy" "$TEMPLATE"; then
 fi
 echo "  ✓ Content-Security-Policy verified in template.html"
 
-bash -n scripts/render.sh
-if [[ ! -x scripts/render.sh ]]; then
-  echo "❌ scripts/render.sh is not executable" >&2
-  exit 1
-fi
-echo "  ✓ scripts/render.sh syntax OK and executable"
+for script in scripts/render.sh scripts/sync_version.sh; do
+  bash -n "$script"
+  if [[ ! -x "$script" ]]; then
+    echo "❌ $script is not executable" >&2
+    exit 1
+  fi
+  echo "  ✓ $script syntax OK and executable"
+done
 
 echo ""
 echo "=== [8/8] Git Index Hygiene & Untracked Exclusions ==="
