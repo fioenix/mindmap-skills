@@ -46,6 +46,6 @@
     "CONTRIBUTING.md"
   ],
   "devDependencies": {
-    "@anthropic-ai/claude-code": "2.1.287"
+    "@anthropic-ai/claude-code": "2.1.292"
   }
 }
