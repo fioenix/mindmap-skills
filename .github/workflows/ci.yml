@@ -33,8 +33,14 @@ jobs:
         with:
           node-version: 22
 
-      - name: Install Claude Code CLI
-        run: npm install --global @anthropic-ai/claude-code@2.1.287 # bump manually; Dependabot does not track this
+      - name: Install Claude Code CLI (pinned in package-lock.json, bumped by Dependabot)
+        run: |
+          npm ci --no-audit --no-fund
+          echo "$GITHUB_WORKSPACE/node_modules/.bin" >> "$GITHUB_PATH"
+
+      # tests/validate.sh skips the strict CLI gate when claude is missing, so fail loudly here.
+      - name: Verify Claude Code CLI is on PATH
+        run: claude --version
 
       - name: Run Marketplace Readiness Test Suite
         run: bash tests/validate.sh

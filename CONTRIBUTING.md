@@ -14,7 +14,10 @@ Thank you for contributing to `mindmap-skills`! Contributions aimed at refining 
 Before committing or opening a pull request, run the complete validation test suite locally:
 
 ```bash
-# Run the 8-gate automated test suite
+# Install the Claude CLI version pinned in package-lock.json (same as CI)
+npm ci
+
+# Run the 8-gate automated test suite (uses the pinned CLI from node_modules/.bin)
 npm test
 # or
 bash tests/validate.sh
