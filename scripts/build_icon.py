@@ -1,104 +1,69 @@
 #!/usr/bin/env python3
 import os
 import subprocess
+import tempfile
 from PIL import Image
 
-def generate_svg():
-    return '''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
-  <defs>
-    <!-- Apple / FINOLABS standard squircle -->
-    <clipPath id="squircle-clip">
-      <rect x="0" y="0" width="512" height="512" rx="112" ry="112" />
-    </clipPath>
+# Monoline mark: one hollow root node fanning out into three branches.
+# Single brand color on a transparent canvas, matching the Vietnamizer icon family.
+LIGHT_COLOR = "#9750C4"
+DARK_COLOR = "#7FE2CE"
 
-    <!-- FINOLABS Signature Iridescent Gradient (pure vector linear) -->
-    <linearGradient id="fn-iridescent" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#BFE9C6" />
-      <stop offset="28%" stop-color="#87D3E1" />
-      <stop offset="68%" stop-color="#C9A8E5" />
-      <stop offset="100%" stop-color="#9750C4" />
-    </linearGradient>
 
-    <!-- Elevation drop shadow per FINOLABS shadow-xl token -->
-    <filter id="ink-elevation" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#0B0B17" flood-opacity="0.22" />
-    </filter>
-  </defs>
-
-  <g clip-path="url(#squircle-clip)">
-    <!-- Surface: FINOLABS Iridescent Gradient -->
-    <rect width="512" height="512" fill="url(#fn-iridescent)" />
-
-    <!-- Foreground: Precision Architectural Mindmap in Lab Ink (#0B0B17) -->
-    <g filter="url(#ink-elevation)">
-      <!-- Branches (Strokes) -->
-      <g fill="none" stroke="#0B0B17" stroke-linecap="round" stroke-linejoin="round">
-        <!-- Main Branch 1 (Top) -->
-        <path d="M 135 256 C 210 256, 220 156, 305 156 L 320 156" stroke-width="18" />
-        <path d="M 320 156 C 355 156, 365 112, 390 112 L 415 112" stroke-width="12" />
-        <path d="M 320 156 C 355 156, 365 184, 390 184 L 415 184" stroke-width="12" />
-
-        <!-- Main Branch 2 (Middle) -->
-        <path d="M 135 256 L 335 256" stroke-width="18" />
-        <path d="M 335 256 L 415 256" stroke-width="12" />
-
-        <!-- Main Branch 3 (Bottom) -->
-        <path d="M 135 256 C 210 256, 220 356, 305 356 L 320 356" stroke-width="18" />
-        <path d="M 320 356 C 355 356, 365 328, 390 328 L 415 328" stroke-width="12" />
-        <path d="M 320 356 C 355 356, 365 400, 390 400 L 415 400" stroke-width="12" />
-      </g>
-
-      <!-- Nodes -->
-      <!-- Root Node (Major Hub) -->
-      <circle cx="135" cy="256" r="28" fill="#0B0B17" />
-      <circle cx="135" cy="256" r="11" fill="#FFFFFF" />
-
-      <!-- Level 1 Nodes (Junctions) -->
-      <circle cx="320" cy="156" r="18" fill="#0B0B17" />
-      <circle cx="320" cy="156" r="7.5" fill="#FFFFFF" />
-
-      <circle cx="335" cy="256" r="18" fill="#0B0B17" />
-      <circle cx="335" cy="256" r="7.5" fill="#FFFFFF" />
-
-      <circle cx="320" cy="356" r="18" fill="#0B0B17" />
-      <circle cx="320" cy="356" r="7.5" fill="#FFFFFF" />
-
-      <!-- Level 2 Leaf Terminals (Solid Dots) -->
-      <circle cx="415" cy="112" r="11" fill="#0B0B17" />
-      <circle cx="415" cy="184" r="11" fill="#0B0B17" />
-      <circle cx="415" cy="256" r="11" fill="#0B0B17" />
-      <circle cx="415" cy="328" r="11" fill="#0B0B17" />
-      <circle cx="415" cy="400" r="11" fill="#0B0B17" />
-    </g>
-  </g>
+def generate_svg(color, title, size=128):
+    return f'''<svg xmlns="http://www.w3.org/2000/svg" width="{size}" height="{size}" viewBox="0 0 128 128" role="img" aria-labelledby="title">
+  <title id="title">{title}</title>
+  <circle cx="40" cy="64" r="11" fill="none" stroke="{color}" stroke-width="9"/>
+  <path d="M51 64 C72 64 72 34 100 34 M51 64 H100 M51 64 C72 64 72 94 100 94" fill="none" stroke="{color}" stroke-width="8" stroke-linecap="round"/>
 </svg>
 '''
 
+
+def render_png(svg_content, png_path, color):
+    # qlmanage renders onto opaque white; recover the alpha channel from the
+    # known single foreground color so the PNG stays transparent like the SVG.
+    with tempfile.TemporaryDirectory() as tmp_dir:
+        svg_path = os.path.join(tmp_dir, "icon.svg")
+        with open(svg_path, "w") as f:
+            f.write(svg_content)
+        subprocess.run(["qlmanage", "-t", "-s", "512", "-o", tmp_dir, svg_path],
+                       check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        rendered = Image.open(os.path.join(tmp_dir, "icon.svg.png")).convert("RGB")
+
+    if rendered.size != (512, 512):
+        rendered = rendered.resize((512, 512), Image.Resampling.LANCZOS)
+
+    rgb = tuple(int(color[i:i + 2], 16) for i in (1, 3, 5))
+    # Use the channel with the largest distance from white for the best precision.
+    channel = min(range(3), key=lambda c: rgb[c])
+    span = 255 - rgb[channel]
+    alpha = rendered.getchannel(channel).point(
+        lambda v: max(0, min(255, round((255 - v) * 255 / span))))
+    png_img = Image.new("RGBA", (512, 512), rgb + (0,))
+    png_img.putalpha(alpha)
+    png_img.save(png_path, format="PNG")
+
+
 def main():
     repo_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    svg_content = generate_svg()
+    light_svg = generate_svg(LIGHT_COLOR, "Mindmap Skills — mindmap")
+    dark_svg = generate_svg(DARK_COLOR, "Mindmap Skills — mindmap, dark")
 
-    # Write SVG files (assets/icon.svg and logo.svg)
-    icon_svg_path = os.path.join(repo_dir, "assets/icon.svg")
-    logo_svg_path = os.path.join(repo_dir, "logo.svg")
-    
-    with open(icon_svg_path, "w") as f:
-        f.write(svg_content)
-    with open(logo_svg_path, "w") as f:
-        f.write(svg_content)
-    print("Updated assets/icon.svg and logo.svg (pure vector SVG)")
+    outputs = {
+        "assets/icon.svg": light_svg,
+        "logo.svg": light_svg,
+        "assets/icon-dark.svg": dark_svg,
+    }
+    for rel_path, content in outputs.items():
+        with open(os.path.join(repo_dir, rel_path), "w") as f:
+            f.write(content)
+    print("Updated assets/icon.svg, assets/icon-dark.svg and logo.svg")
 
-    # Render PNG using macOS qlmanage
-    subprocess.run(["qlmanage", "-t", "-s", "512", "-o", "/tmp", icon_svg_path], check=True)
-    rendered_png = "/tmp/icon.svg.png"
     icon_png_path = os.path.join(repo_dir, "assets/icon.png")
-    
-    # Ensure exact 512x512 RGBA
-    png_img = Image.open(rendered_png)
-    if png_img.size != (512, 512):
-        png_img = png_img.resize((512, 512), Image.Resampling.LANCZOS)
-    png_img.save(icon_png_path, format="PNG")
-    print(f"Saved {icon_png_path} ({png_img.size})")
+    render_png(generate_svg(LIGHT_COLOR, "Mindmap Skills — mindmap", size=512),
+               icon_png_path, LIGHT_COLOR)
+    print(f"Saved {icon_png_path} (512, 512)")
+
 
 if __name__ == "__main__":
     main()
