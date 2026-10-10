@@ -7,18 +7,20 @@ Thank you for contributing to `mindmap-skills`! Contributions aimed at refining 
 1. **Cognitive First**: Any modification to structuring rules (`SKILL.md`) must preserve core human cognitive bandwidth principles (MECE taxonomy, Miller's Law: 4–7 main branches, depth 3–4, brevity ≤ 8 words per node).
 2. **Zero-Daemon & Zero-Token-Tax**: Do not introduce persistent background daemons (such as headless Chromium/Playwright) or schemas that incur token tax during idle conversation turns.
 3. **Multi-Agent Parity**: Maintain simultaneous compliance across Claude Code, OpenAI Codex, and Google Antigravity.
-4. **Security & Content Isolation**: Standalone HTML templates must maintain strict Content Security Policy (CSP) headers and escape `</script` tokens safely against XSS/DOM injection.
+4. **Security & Content Isolation**: Standalone HTML templates must maintain strict Content Security Policy (CSP) headers and JSON-encode embedded Markdown and escape every `<` as `\u003c`; render source HTML as text.
 
 ## 2. Offline Validation
 
 Before committing or opening a pull request, run the complete validation test suite locally:
 
 ```bash
-# Install the Claude CLI version pinned in package-lock.json (same as CI)
-npm ci
+# Install the CI-only Claude CLI pinned in .github/ci/package-lock.json (same as CI).
+# The plugin itself has no npm dependencies.
+npm ci --prefix .github/ci
 
-# Run the 8-gate automated test suite (uses the pinned CLI from node_modules/.bin)
-npm test
+# Run the 8-gate automated test suite with the pinned CLI on PATH
+PATH="$PWD/.github/ci/node_modules/.bin:$PATH" npm test
+python3 tests/distribution.py
 # or
 bash tests/validate.sh
 

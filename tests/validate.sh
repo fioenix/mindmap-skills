@@ -85,6 +85,8 @@ if [[ -z "$BRAND_COLOR" || -z "$BRAND_DARK" ]]; then
   exit 1
 fi
 echo "  ✓ Brand colors configured: light=$BRAND_COLOR, dark=$BRAND_DARK"
+python3 tests/distribution.py
+node tests/theme.cjs
 
 echo ""
 echo "=== [4/8] Claude Code Listing Compliance ==="
@@ -186,7 +188,7 @@ if ! grep -q "Content-Security-Policy" "$TEMPLATE"; then
 fi
 echo "  ✓ Content-Security-Policy verified in template.html"
 
-for script in scripts/render.sh scripts/sync_version.sh; do
+for script in scripts/render.sh skills/markmap/scripts/render.sh scripts/sync_version.sh; do
   bash -n "$script"
   if [[ ! -x "$script" ]]; then
     echo "❌ $script is not executable" >&2
@@ -207,5 +209,5 @@ echo "  ✓ Zero tracked ignored files (git ls-files -ci is clean)"
 
 echo ""
 echo "=========================================================="
-echo " 🎉 ALL 8 VALIDATION GATES PASSED! READY FOR SUBMISSION.   "
+echo " 🎉 ALL 8 LOCAL VALIDATION GATES PASSED; PORTAL REVIEW PENDING.   "
 echo "=========================================================="

@@ -1,4 +1,6 @@
-# Release Readiness Dossier
+# Historical Release Readiness Dossier
+
+The evidence below describes the earlier 0.1.2 source. It does not validate the current working tree or establish OpenAI/skills.sh listing. See [the current official-requirements audit](openai-skills-readiness.md), which supersedes OpenAI readiness claims below.
 
 Tracking document and release verification dossier for `mindmap-skills` conforming to the marketplace readiness standards defined in `04-PROCEDURAL/Workflows/skill-plugin-marketplace-readiness.md`.
 

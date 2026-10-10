@@ -1,6 +1,6 @@
 {
   "name": "mindmap-skills",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Universal Markmap mindmaps for AI agents (Claude Code, Codex, Antigravity) with official syntax and robust standalone HTML rendering.",
   "type": "module",
   "icon": "./assets/icon.svg",
@@ -43,9 +43,8 @@
     "LICENSE",
     "PRIVACY.md",
     "TERMS.md",
-    "CONTRIBUTING.md"
-  ],
-  "devDependencies": {
-    "@anthropic-ai/claude-code": "2.1.292"
-  }
+    "CONTRIBUTING.md",
+    ".codex-plugin",
+    "docs/openai-skills-readiness.md"
+  ]
 }

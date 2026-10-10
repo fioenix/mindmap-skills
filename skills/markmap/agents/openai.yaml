@@ -1,0 +1,5 @@
+interface:
+  display_name: "Mindmap Skills"
+  short_description: "Interactive Markmap mindmaps with cognitive structuring"
+  brand_color: "#9750C4"
+  default_prompt: "Use $markmap to create an interactive Markmap mindmap for this topic with 4 to 7 main branches and depth 3 to 4."

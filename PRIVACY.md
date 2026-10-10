@@ -2,11 +2,12 @@
 
 `mindmap-skills` is engineered with an offline-first, decentralized posture that respects user privacy and data sovereignty:
 
-## 1. Zero Backend & No External Egress
+## 1. Backend, Network Requests & Telemetry
 
 - **Zero-Backend Architecture**: The skill and plugin operate with no backend servers, no analytics ingestion endpoints, and no telemetry services owned by maintainers.
 - **Local & In-Agent Execution**: Concept extraction, cognitive structuring, and Markdown generation (`.mindmap.md`) occur strictly within the user's active AI agent runtime context (Claude Code, OpenAI Codex, Google Antigravity).
-- **Zero-Dependency Rendering**: Standalone HTML mindmaps utilize pre-packaged static client templates, public open-source CDNs (Markmap / D3 via jsDelivr), or local offline compilation via `scripts/render.sh` without external network dependencies.
+- **Rendering requests**: The alternative HTML template downloads pinned Markmap and D3 assets from jsDelivr, which receives ordinary network request metadata. Offline compilation uses Node.js/npx; first use may download pinned markmap-cli and dependencies from npm. The resulting `--offline` HTML embeds assets. Neither mode intentionally uploads document contents to maintainers.
+- **Installer telemetry**: The third-party Skills CLI has separate install telemetry used by skills.sh. Set `DISABLE_TELEMETRY=1` to opt out, as shown in the README. Host agent processing follows its own policy.
 
 ## 2. Input Data Governance
 

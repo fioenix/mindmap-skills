@@ -1,0 +1,9 @@
+{
+  "name": "mindmap-skills-ci",
+  "private": true,
+  "description": "CI-only tooling for mindmap-skills; never shipped with the plugin.",
+  "license": "MIT",
+  "devDependencies": {
+    "@anthropic-ai/claude-code": "2.1.292"
+  }
+}

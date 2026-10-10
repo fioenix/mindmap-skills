@@ -37,6 +37,9 @@ tmp/
 *.tmp
 *.mindmap.html
 
+# Generated mindmap sources from local usage (never publish)
+*.mindmap.md
+
 # Agent local tooling vs distribution catalog
 .agents/skills/
 !.agents/plugins/marketplace.json
