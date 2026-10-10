@@ -44,5 +44,8 @@
     "PRIVACY.md",
     "TERMS.md",
     "CONTRIBUTING.md"
-  ]
+  ],
+  "devDependencies": {
+    "@anthropic-ai/claude-code": "2.1.287"
+  }
 }
