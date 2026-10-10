@@ -14,7 +14,7 @@
 
 <p align="center">
   <a href="https://github.com/fioenix/mindmap-skills/actions/workflows/ci.yml"><img src="https://github.com/fioenix/mindmap-skills/actions/workflows/ci.yml/badge.svg" alt="CI Status" /></a>
-  <a href="https://github.com/fioenix/mindmap-skills"><img src="https://img.shields.io/badge/Marketplace-Ready-7FE2CE?logo=anthropic&logoColor=0B0B17" alt="Marketplace Ready" /></a>
+  <a href="https://github.com/fioenix/mindmap-skills"><img src="https://img.shields.io/badge/Packaging-Checked-7FE2CE?logo=anthropic&logoColor=0B0B17" alt="Packaging checked locally" /></a>
   <a href="https://github.com/fioenix/mindmap-skills"><img src="https://img.shields.io/badge/Runtime-Zero--Daemon-9750C4" alt="Zero Daemon" /></a>
   <a href="https://github.com/fioenix/mindmap-skills"><img src="https://img.shields.io/badge/Agents-Claude%20%7C%20Codex%20%7C%20Antigravity-18181b" alt="Agent Support" /></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License: MIT" /></a>
@@ -80,22 +80,31 @@ claude plugin add ~/Projects/mindmap-skills
 
 ---
 
-### 2. OpenAI Codex & Agents SDK
+### 2. OpenAI Codex
 
 #### Via Skills CLI:
 ```bash
-npx --yes skills@1.5.20 add fioenix/mindmap-skills --global
+DISABLE_TELEMETRY=1 npx --yes skills@1.5.20 add fioenix/mindmap-skills --skill markmap --agent codex --global
 ```
 
-#### Via Workspace Catalog or Agent Skills Directory:
+This installs the skill, not an approved OpenAI directory plugin. The Skills CLI normally reports install telemetry; this command opts out. [skills.sh listings](https://skills.sh/docs/faq) are driven by user installs with telemetry. No listing or OpenAI approval is claimed here.
+
+#### OpenAI Platform Plugin Submission:
+Build the skills-only upload ZIP locally:
+```bash
+python3 scripts/package_plugin.py /tmp/mindmap-skills-0.1.3.zip
+```
+The ZIP uses the supported `.codex-plugin/plugin.json` layout and contains exactly one plugin root. It excludes development files and compatibility catalogs. Upload, identity verification, review, and publication require owner action in [Platform Plugins](https://platform.openai.com/plugins). See the [current checklist and remaining steps](docs/openai-skills-readiness.md).
+
+#### Via Agent Skills Directory:
 ```bash
 # In a specific project
 mkdir -p .agents/skills
 cp -r ~/Projects/mindmap-skills/skills/markmap .agents/skills/
 
 # Or machine-global
-mkdir -p ~/.codex/skills
-ln -s ~/Projects/mindmap-skills/skills/markmap ~/.codex/skills/markmap
+mkdir -p ~/.agents/skills
+ln -s ~/Projects/mindmap-skills/skills/markmap ~/.agents/skills/markmap
 ```
 
 ---
@@ -213,9 +222,9 @@ mindmap-skills/
 │   └── plugins/
 │       └── marketplace.json    # Agent ecosystem distribution catalog
 ├── agents/
-│   └── openai.yaml             # Agent interface specification
+│   └── openai.yaml             # Legacy interface descriptor; canonical copy is in the skill
 ├── plugin.json                 # Universal / Antigravity plugin descriptor
-├── package.json                # npm / skills.sh package descriptor
+├── package.json                # npm package descriptor (skills.sh discovers SKILL.md)
 ├── assets/
 │   ├── icon.svg                # Vector SVG icon (FINOLABS Design System)
 │   ├── icon-dark.svg           # Dark mode vector SVG icon
@@ -229,6 +238,8 @@ mindmap-skills/
 ├── skills/
 │   └── markmap/
 │       ├── SKILL.md            # Canonical skill instructions & prompt constraints
+│       ├── agents/openai.yaml  # Skill-local Codex UI metadata
+│       ├── scripts/render.sh   # Pinned renderer, included in skill installs
 │       └── assets/
 │           └── template.html   # Standalone HTML artifact template (CSP hardened)
 ├── scripts/
@@ -243,9 +254,9 @@ mindmap-skills/
 
 ## 🔒 Security Posture & Privacy
 
-* **Zero Backend & No Telemetry**: The skill does not communicate with any external backend or analytics service. Data remains strictly within the user's host environment.
-* **XSS & Parser Breakout Protection**: The standalone template enforces Content Security Policy (CSP) headers and documents strict escaping of `</script` as `<\/script` to prevent premature script termination and DOM injection.
-* **CLI Option Injection Guard**: `scripts/render.sh` terminates argument parsing with `--` (`markmap-cli --offline -o "$OUTPUT" --no-open -- "$INPUT"`) to prevent untrusted input from triggering CLI flags.
+* **No Maintainer Backend or Telemetry**: Host agent data policies apply. CDN HTML requests pinned libraries from jsDelivr; first CLI rendering may download packages from npm. Compiled `--offline` output embeds libraries. Skills CLI installation has its own optional telemetry.
+* **Template Content Isolation**: JSON-encode Markdown and escape every `<` before embedding; HTML-escape titles. CDN template nodes display source text with links, images, and raw HTML disabled. The CSP is defense in depth, not a substitute for encoding. CLI-generated HTML has its own rendering behavior; use trusted source content.
+* **CLI Option Injection Guard**: `scripts/render.sh` terminates argument parsing with `--` (`markmap-cli@0.18.12 --offline -o "$OUTPUT" --no-open -- "$INPUT"`) to prevent untrusted input from triggering CLI flags.
 * **Sensitive Data Policy**: See [PRIVACY.md](PRIVACY.md) and [TERMS.md](TERMS.md).
 
 ---

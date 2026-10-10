@@ -1,33 +1,71 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; img-src 'self' data: https:; font-src 'self' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net;">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'unsafe-inline' https://cdn.jsdelivr.net; img-src data:; font-src https://cdn.jsdelivr.net; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none';">
   <title>{{TITLE}}</title>
   <style>
+    :root {
+      color-scheme: light;
+      --mm-bg: #ffffff;
+      --mm-fg: #27272a;
+      --mm-panel: #ffffff;
+      --mm-hover: #e4e4e7;
+    }
+    html.markmap-dark {
+      color-scheme: dark;
+      --mm-bg: #18181b;
+      --mm-fg: #f4f4f5;
+      --mm-panel: #27272a;
+      --mm-hover: #3f3f46;
+    }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html, body {
       width: 100%;
       height: 100%;
       overflow: hidden;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      background: #ffffff;
+      background: var(--mm-bg);
+      color: var(--mm-fg);
     }
     #mindmap {
       width: 100vw;
       height: 100vh;
       display: block;
     }
-    @media (prefers-color-scheme: dark) {
-      html, body {
-        background: #18181b;
-        color: #f4f4f5;
-      }
-      #mindmap text {
-        fill: #f4f4f5;
-      }
+    /* Markmap labels are HTML foreignObjects, not SVG text. Override library defaults. */
+    html .markmap, html.markmap-dark .markmap {
+      --markmap-text-color: var(--mm-fg);
+      --markmap-circle-open-bg: var(--mm-bg);
     }
+    html .mm-toolbar, #theme-toggle {
+      background: var(--mm-panel);
+      color: var(--mm-fg);
+      border: 1px solid var(--mm-fg);
+    }
+    html .mm-toolbar a, html .mm-toolbar svg,
+    html .mm-toolbar .mm-toolbar-brand > span {
+      color: var(--mm-fg);
+    }
+    html .mm-toolbar .mm-toolbar-item:hover, html .mm-toolbar .mm-toolbar-item.active,
+    html .mm-toolbar .mm-toolbar-brand:hover, html .mm-toolbar .mm-toolbar-brand.active,
+    #theme-toggle:hover {
+      background: var(--mm-hover);
+    }
+    html .mm-toolbar .mm-toolbar-item:hover > *, html .mm-toolbar .mm-toolbar-item.active > *,
+    html .mm-toolbar .mm-toolbar-brand:hover > *, html .mm-toolbar .mm-toolbar-brand.active > * {
+      color: var(--mm-fg);
+    }
+    #theme-toggle {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      padding: 8px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    #theme-toggle:focus-visible { outline: 2px solid var(--mm-fg); outline-offset: 3px; }
     .mm-toolbar {
       position: absolute;
       bottom: 24px;
@@ -46,22 +84,50 @@
 </head>
 <body>
   <svg id="mindmap"></svg>
-  <script type="text/template" id="markdown-source">
-{{MARKDOWN_CONTENT}}
+  <button id="theme-toggle" type="button" aria-pressed="false">Dark mode</button>
+  <script id="theme-controller">
+    (() => {
+      const html = document.documentElement;
+      const button = document.getElementById("theme-toggle");
+      const apply = (dark) => {
+        html.dataset.theme = dark ? "dark" : "light";
+        html.classList.toggle("markmap-dark", dark);
+        button.setAttribute("aria-pressed", String(dark));
+      };
+      // A standalone file cannot reliably infer the embedding app's theme.
+      apply(html.dataset.theme === "dark");
+      button.addEventListener("click", () => apply(html.dataset.theme !== "dark"));
+    })();
+  </script>
+  <script type="application/json" id="markdown-source">
+{{MARKDOWN_JSON}}
   </script>
 
   <script>
     window.addEventListener("DOMContentLoaded", () => {
       try {
         const mdEl = document.getElementById("markdown-source");
-        const md = mdEl.textContent.trim();
+        const md = JSON.parse(mdEl.textContent);
+        if (typeof md !== "string") throw new Error("Markdown payload must be a string");
         const { Transformer, Markmap, Toolbar } = window.markmap;
         const transformer = new Transformer();
         const { root, frontmatter } = transformer.transform(md);
+        // Keep source HTML, links and images out of Markmap's rendered nodes.
+        const plainNodes = (node) => {
+          const parsed = new DOMParser().parseFromString(node.content || "", "text/html");
+          parsed.querySelectorAll("script, style, iframe, object, embed, img").forEach(el => el.remove());
+          const span = document.createElement("span");
+          span.textContent = parsed.body.textContent || "";
+          node.content = span.innerHTML;
+          (node.children || []).forEach(plainNodes);
+        };
+        plainNodes(root);
         const options = markmap.deriveOptions(frontmatter?.markmap);
         const mm = Markmap.create("#mindmap", options, root);
         if (Toolbar) {
           const toolbar = new Toolbar();
+          // Use the accessible theme button above; avoid a second, unsynchronized toggle.
+          toolbar.setItems(["zoomIn", "zoomOut", "fit", "recurse"]);
           toolbar.attach(mm);
           const el = toolbar.render();
           el.setAttribute("style", "position:absolute;bottom:20px;right:20px");

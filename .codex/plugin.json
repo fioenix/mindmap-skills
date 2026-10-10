@@ -1,6 +1,6 @@
 {
   "name": "mindmap-skills",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Universal Markmap mindmaps for AI agents with strict cognitive structuring and standalone HTML rendering.",
   "author": {
     "name": "Fioenix",
@@ -17,12 +17,12 @@
     "diagram",
     "agent-skills"
   ],
-  "skills": "./skills/markmap",
+  "skills": "./skills/",
   "interface": {
     "displayName": "Mindmap Skills",
     "shortDescription": "Interactive Markmap mindmaps",
     "developerName": "Fioenix",
-    "longDescription": "Generate interactive Markmap mindmaps from notes, architecture docs, codebases, or topics. Designed for engineers, architects, and researchers, mindmap-skills enforces cognitive structuring principles (Miller's Law: 4–7 main branches, depth 3–4 levels, brevity <= 8 words per node) and emits clean .mindmap.md along with zero-dependency standalone HTML artifacts. Features colorFreezeLevel styling, automatic node folding, KaTeX formulas, task checklists, and CSP-hardened templates. No background daemon or token tax.",
+    "longDescription": "Generate interactive Markmap mindmaps from notes, architecture documents, or topics. Produces editable Markdown and HTML with concise branches, folding, and decision tracking. No background server or maintainer telemetry. Offline HTML rendering requires Node.js and markmap-cli; the alternative template loads pinned libraries from jsDelivr and requires network access. The host agent controls file access and conversation data.",
     "category": "Productivity",
     "capabilities": [],
     "websiteURL": "https://github.com/fioenix/mindmap-skills",
